@@ -1,5 +1,11 @@
 // app.js
 //https://blog.csdn.net/m0_73334325/article/details/129057287
+//https://blog.csdn.net/cozy666/article/details/135222227
+/*
+npm i @vant/weapp -S --production
+npm install miniprogram-api-promise
+npm install --save mobx-miniprogram mobx-miniprogram-bindings
+*/
 import {promisifyAll} from "miniprogram-api-promise"
 const wxp = wx.p = {}
 //promisify所有wx异步api

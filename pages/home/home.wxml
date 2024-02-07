@@ -1,4 +1,5 @@
 <!--pages/home/home.wxml-->
+<banner></banner>
 <text>pages/home/home.wxml</text>
 <view>
 <van-button type="default">默认按钮</van-button>
@@ -7,4 +8,20 @@
 <van-button type="warning">警告按钮</van-button>
 <van-button type="danger">危险按钮</van-button>
 </view>
+<view>
+  <van-button type="default" bind:tap="getMsg">Get测试</van-button>
+  <van-button type="primary" bind:tap="postMsg">Post测试</van-button>
+  <van-button type="warning" bind:tap="toastMsg">toast测试</van-button>
+</view>
+<view>
+{{message}}
+</view>
+<van-toast id="van-toast" />
+<van-toast id="custom-selector" />
+<view>{{numA}} + {{numB}} = {{sum}}</view>
+<view>
+  <van-button type="default" bind:tap="btnHandler" data-step="{{1}}">numA + 1 </van-button>
+  <van-button type="primary" bind:tap="btnHandler" data-step="{{-1}}">numA - 1 </van-button>
+</view>
+
 
