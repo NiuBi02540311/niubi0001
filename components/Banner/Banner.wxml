@@ -1,0 +1,11 @@
+<!--components/Banner/Banner.wxml-->
+<!--components/Banner/Banner.wxml-->
+<view>{{numA}} + {{numB}} = {{sum}}</view>
+<van-button type="default" bind:tap="btnHandler2" data-step="{{1}}">numB + 1 </van-button>
+<view>
+  <swiper indicator-dots autoplay circular>
+    <swiper-item wx:for="{{banner_list}}" wx:key="index">
+      <image src="{{item.url_mid}}"></image>
+    </swiper-item>
+  </swiper>
+</view>
