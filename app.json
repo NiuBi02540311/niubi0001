@@ -1,9 +1,54 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/message/message",
+    "pages/contract/contract",
     "pages/index/index",
     "pages/logs/logs"
+  
   ],
+  "subPackages": [
+    {
+      "root": "pkgA",
+      "name": "p1",
+      "pages": [
+        "pages/cat/cat",
+        "pages/dog/dog"
+      ]
+    },
+    {
+      "root": "pkgB",
+      "name": "p2",
+      "pages": [
+        "pages/apple/apple"
+      ]
+    }
+  ],
+  "tabBar": {
+    "custom": true,
+    "color": "#000000",
+    "selectedColor": "#FE9132",
+    "list": [
+      {
+      "pagePath": "pages/home/home",
+      "text": "主页",
+      "iconPath": "/images/tabs/home2.png",
+      "selectedIconPath": "/images/tabs/home1.png"
+    },
+    {
+      "pagePath": "pages/message/message",
+      "text": "消息",
+      "iconPath": "/images/tabs/message1.png",
+      "selectedIconPath": "/images/tabs/message2.png"
+    },
+    {
+      "pagePath": "pages/contract/contract",
+      "text": "联系人",
+      "iconPath": "/images/tabs/ren2.png",
+      "selectedIconPath": "/images/tabs/ren1.png"
+    }
+  ]
+  },
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "Weixin",
@@ -15,6 +60,8 @@
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "van-toast": "@vant/weapp/toast/index",
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
     "banner": "/components/Banner/Banner"
   }
 }
