@@ -1,1 +1,5 @@
 /* components/Banner/Banner.wxss */
+.BannerView {
+  border: 2rpx solid #000000;
+  margin: 2px;
+}

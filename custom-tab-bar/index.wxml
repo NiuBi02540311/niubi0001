@@ -27,7 +27,8 @@
 
 <van-tabbar active="{{active}}"  active="{{ active }}" active-color="#07c160"    inactive-color="#000" bind:change="onChange">
   <van-tabbar-item wx:for="{{list}}" wx:key="index" 
-  info ="{{item.info && item.info > 0? item.info : ''}}" data-path="{{ item.pagePath }}" bind:tap="switchTab" 
+  info ="{{item.info && item.info > 0? item.info : ''}}" 
+  data-path="{{ item.pagePath }}" bind:tap="switchTab" 
   icon ="{{item.icon && item.icon !='' > 0? item.icon : ''}}">
     {{item.text}}
   </van-tabbar-item>

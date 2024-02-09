@@ -40,7 +40,7 @@ Component({
         //url: 'https://realwds-api.vercel.app/360/getAppsByCategory?cid=26&start=0&count=5',
         url:'http://localhost:57526/Test/getAppsByCategory'
       })
-      console.log(res);
+      //console.log(res);
       this.setData({
         banner_list:res
       })

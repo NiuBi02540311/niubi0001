@@ -2,6 +2,9 @@
 import {storeBindingsBehavior} from 'mobx-miniprogram-bindings'
 import {store} from '../store/store'
 Component({
+  options:{
+    styleIsolation:"shared"
+  },
   behaviors:[storeBindingsBehavior ],
   storeBindings:{
       store,
@@ -55,7 +58,13 @@ Component({
       "iconPath": "/images/tabs/ren2.png",
       "selectedIconPath": "/images/tabs/ren1.png",
       "icon":"friends-o"
-    }]
+    },
+    {
+      "pagePath": "/pages/index/index",
+      "text": "我的",
+      "icon":"friends-o"
+    }
+  ]
   },
 
   /**
