@@ -1,0 +1,34 @@
+<!--pages/goodlist/goodlist.wxml-->
+<van-nav-bar
+  title="数量：100"
+  left-text="返回主页"
+  right-text="新增商品"
+  left-arrow
+  bind:click-left="onClickLeft"
+  bind:click-right="onClickRight"
+/>
+
+<!-- <van-button type="primary" block>块级元素</van-button> -->
+<van-card  wx:for="{{3}}" wx:key="index"
+  num="2"
+  tag="热卖"
+  price="10.00"
+  desc="描述信息"
+  title="商品标题-{{index+1}}"
+  thumb="/images/tabs/gd.png"
+>
+<view slot="tags" style="padding: 10rpx;">
+  <view>
+    <van-tag type="primary">购买时间:</van-tag>
+    <van-tag type="success" text-color="#ad0000" plain >2024.1.1</van-tag>
+  </view>
+  <view style="margin-top: 8rpx;">
+    <van-tag type="primary">登记时间:</van-tag>
+    <van-tag type="success" text-color="#ad0000" plain >2024.1.10</van-tag>
+  </view>
+  </view>
+<view slot="footer">
+    <van-button size="mini" type="warning" style="margin-right:20rpx;">删除</van-button>
+    <van-button size="mini">编辑</van-button>
+  </view>
+</van-card>

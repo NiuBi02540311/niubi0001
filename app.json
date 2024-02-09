@@ -3,10 +3,17 @@
     "pages/home/home",
     "pages/message/message",
     "pages/contract/contract",
+    "pages/goodlist/goodlist",
+    "pages/goodadd/goodadd",
     "pages/index/index",
+    "pages/test/test",
     "pages/logs/logs"
   
   ],
+  "preloadRule": {
+    "pages/contract/contract":{ "packages": ["p1"],"network": "all" },
+    "pages/message/message":{ "packages": ["p2"],"network": "wifi" }
+  },
   "subPackages": [
     {
       "root": "pkgA",
@@ -46,6 +53,10 @@
       "text": "联系人",
       "iconPath": "/images/tabs/ren2.png",
       "selectedIconPath": "/images/tabs/ren1.png"
+    },
+    {
+      "pagePath": "pages/index/index",
+      "text": "我的"
     }
   ]
   },
@@ -57,11 +68,17 @@
   "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
+  "__usePrivacyCheck__": false,
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "van-toast": "@vant/weapp/toast/index",
     "van-tabbar": "@vant/weapp/tabbar/index",
     "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-grid": "@vant/weapp/grid/index",
+    "van-grid-item": "@vant/weapp/grid-item/index",
+    "van-card": "@vant/weapp/card/index",
+    "van-nav-bar": "@vant/weapp/nav-bar/index",
+    "van-tag": "@vant/weapp/tag/index",
     "banner": "/components/Banner/Banner"
   }
 }

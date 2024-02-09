@@ -1,6 +1,6 @@
-// pages/home/home.js
+// pages/test/test.js
 import  Toast  from '@vant/weapp/toast/toast';
-import {createStoreBindings,detroyStoreBindings} from 'mobx-miniprogram-bindings'
+import {createStoreBindings} from 'mobx-miniprogram-bindings'
 import {store} from '../../store/store'
 Page({
 
@@ -8,8 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    message:'',
-    datalist:[]
+    message:''
   },
 
   /**
@@ -20,56 +19,9 @@ Page({
       store,
       fields:['numA','numB','sum'],
       actions:['updateNumA']
+
     })
-    this.initData()
-  },
- async initData(){
-    const arr = [
-      {"id":1,"name":"aaa","url":"/pages/goodlist/goodlist","src":"https://img.yzcdn.cn/vant/apple-1.jpg"},
-      {"id":2,"name":"bbb","url":"/pages/goodlist/goodlist","src":"https://img.yzcdn.cn/vant/apple-2.jpg"},
-      {"id":3,"name":"ccc","url":"/pages/goodlist/goodlist","src":"https://img.yzcdn.cn/vant/apple-3.jpg"},
-      {"id":4,"name":"ddd","url":"/pages/goodlist/goodlist","src":"https://img.yzcdn.cn/vant/apple-4.jpg"},
-      {"id":5,"name":"eee","url":"/pages/goodlist/goodlist","src":"https://img.yzcdn.cn/vant/apple-5.jpg"},
-      {"id":6,"name":"fff","url":"/pages/goodlist/goodlist","src":"https://img.yzcdn.cn/vant/apple-6.jpg"},
-    ];
-    //this.setData({ datalist:arr })
-    //openid
-    const openid = wx.getStorageSync('openid') 
-    const {data:res} = await wx.p.request({
-      url: 'http://localhost:57526/Test/getHomeDatalist?openid='+openid,
-      method:'GET'
-    })
-    console.log(res)
-    this.setData({ datalist:res })
-  },
-  ImgClick(e){
-    console.log(e)
-    const index = e.target.dataset.index
-    const id =  this.data.datalist[index].id
-    const name =  this.data.datalist[index].name
-    const url = this.data.datalist[index].url + "?id="+id+"&name=" + name
-    console.log(url)
-    wx.navigateTo({
-      url: url,
-    })
-  },
-  tt(){
-    wx.navigateTo({
-      url: '/pages/test/test?id=1&name=Janson',//附带两个参数过去
-      events: {
-        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-        acceptDataFromOpenedPage: function(data) {
-          console.log(data)
-        },
-        someEvent: function(data) {
-          console.log(data)
-        }
-      },
-      success: function(res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-      }
-    })
+
   },
 GetUser(){
 
@@ -178,9 +130,7 @@ GetUser(){
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-    if(this.storeBindings){
-       this.storeBindings.detroyStoreBindings()
-    }
+    this.storeBindings.destroyStoreBindings()
   },
 
   /**

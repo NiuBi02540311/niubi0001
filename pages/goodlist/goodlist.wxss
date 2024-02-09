@@ -1,0 +1,21 @@
+/* pages/goodlist/goodlist.wxss */
+.van-card {
+  --card-background-color:#f3f2de;
+  border: 2rpx solid red;
+  margin: 10rpx;
+}
+/* 金额/虚拟价格 - 上浮 */
+.van-card__bottom2{
+  padding-bottom: 80rpx!important;
+}
+ 
+/* 调整图像大小(最好用百分比) */
+.van-card__img2{
+  width: 55%!important;
+  height: 55%!important;
+}
+ 
+/* 调整左侧图像容器 - 使其贴近 */
+.van-card__thumb2{
+  margin-right:-44rpx!important;
+}
