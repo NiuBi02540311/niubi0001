@@ -13,7 +13,7 @@
     <text>{{datalist[index].name}}</text>
   </van-grid-item>
 </van-grid>
-<van-grid clickable column-num="2">
+<van-grid clickable column-num="3">
   <van-grid-item
     icon="home-o"
     link-type="navigateTo"
@@ -23,8 +23,14 @@
   <van-grid-item
     icon="search"
     link-type="reLaunch"
-    url="/pkgB/pages/apple/apple"
-    text="ReLaunch 跳转"
+    url="/pages/goodedit/goodedit"
+    text="goodedit 跳转"
+  />
+  <van-grid-item
+    icon="search"
+    link-type="reLaunch"
+    url="/pages/goodadd/goodadd"
+    text="goodadd 跳转"
   />
 </van-grid>
 <!-- <view class="img-box">

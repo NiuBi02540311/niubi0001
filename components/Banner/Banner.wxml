@@ -5,7 +5,7 @@
 <view class="BannerView">
   <swiper indicator-dots autoplay circular>
     <swiper-item wx:for="{{banner_list}}" wx:key="index">
-      <image src="{{item.url_mid}}"></image>
+      <image src="{{item.url_mid}}" data-page="{{item.page}}" bind:tap="imghandler"></image>
     </swiper-item>
   </swiper>
 </view>

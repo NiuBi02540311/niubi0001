@@ -47,6 +47,13 @@ Component({
     },
     btnHandler2(e){
       this.updateB(e.target.dataset.step)
+    },
+    imghandler(e){
+      const page = e.target.dataset.page
+      if(page && page == '') return
+      wx.navigateTo({
+        url: page
+      })
     }
   },
   lifetimes:{
