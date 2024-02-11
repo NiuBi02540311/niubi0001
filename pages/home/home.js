@@ -2,6 +2,8 @@
 import  Toast  from '@vant/weapp/toast/toast';
 import {createStoreBindings,detroyStoreBindings} from 'mobx-miniprogram-bindings'
 import {store} from '../../store/store'
+var app = getApp()
+const localhost = app.globalData.localhost;
 Page({
 
   /**
@@ -22,6 +24,7 @@ Page({
       actions:['updateNumA']
     })
     this.initData()
+    //console.log(localhost)
   },
  async initData(){
     const arr = [
@@ -36,7 +39,7 @@ Page({
     //openid
     const openid = wx.getStorageSync('openid') 
     const {data:res} = await wx.p.request({
-      url: 'http://localhost:57526/Test/getHomeDatalist?openid='+openid,
+      url:  localhost + '/wx/getHomeDatalist?openid='+openid,
       method:'GET'
     })
     console.log(res)
@@ -90,7 +93,7 @@ GetUser(){
     forbidClick: true,
   })
   const {data:res} = await wx.p.request({
-    url: 'http://localhost:57526/Test/demo5?name=110',
+    url: 'http://localhost:57526/wx/demo5?name=110',
     method:'GET'
   })
   //console.log(res)
@@ -104,7 +107,7 @@ GetUser(){
     loadingType: 'spinner',
   })
   const {data:res} = await wx.p.request({
-    url: 'http://localhost:57526/Test/demo6?name=110',
+    url: 'http://localhost:57526/wx/demo6?name=110',
     method:'POST'
   })
   console.log(res)

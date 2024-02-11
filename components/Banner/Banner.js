@@ -35,10 +35,10 @@ Component({
    */
   methods: {
     async getBanner(){
+      const localhost = getApp().globalData.localhost
       const {data:res}=await wx.p.request({
         methods:'GET',
-        //url: 'https://realwds-api.vercel.app/360/getAppsByCategory?cid=26&start=0&count=5',
-        url:'http://localhost:57526/Test/getAppsByCategory'
+        url: localhost + '/wx/getAppsByCategory'
       })
       //console.log(res);
       this.setData({

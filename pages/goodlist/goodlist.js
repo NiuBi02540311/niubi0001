@@ -2,6 +2,8 @@
 import  Toast  from '@vant/weapp/toast/toast';
 import Notify from '@vant/weapp/notify/notify';
 import Dialog from '@vant/weapp/dialog/dialog';
+const app = getApp()
+const localhost = app.globalData.localhost;
 Page({
   height:'100%' ,
   options:{
@@ -11,7 +13,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    query: {},
+    query: {},floorstatus:false, isShow: false,
     goodsList: [],
     nowPage:  1,  pageSize : 5, rowcount  : -1
   },
@@ -29,8 +31,10 @@ Page({
   async  getList(){
     // 请求数据后
     // 关闭下拉刷新的窗口
-    let that = this;//在回调甘薯里,this有时候不能直接用,防止出bug所初始化一个that
-    if(this.data.goodsList.length == this.data.rowcount){
+    const that = this;//在回调甘薯里,this有时候不能直接用,防止出bug所初始化一个that
+    const show = that.data.goodsList.length == that.data.rowcount
+    this.setData({isShow: show })
+    if(this.data.isShow ){
       // Toast.loading({
       //   message: '全部加载完毕22',
       //   forbidClick: true,
@@ -47,10 +51,17 @@ Page({
     const pid = that.data.query.id
     const openid = wx.getStorageSync('openid') 
     const {data:res} = await wx.p.request({
-      url: `http://localhost:57526/Test/getGoodDatalist?pid=${pid}&openid=${openid}&nowPage=${that.data.nowPage}&pageSize=${that.data.pageSize}`,
+      url: localhost + `/wx/getGoodDatalist?pid=${pid}&openid=${openid}&nowPage=${that.data.nowPage}&pageSize=${that.data.pageSize}`,
       method:'GET'
     })
-   
+   if(res.rowcount == 0){
+      setTimeout(function () {
+        console.log('stopPullDownRefresh');
+        wx.hideLoading()
+        wx.stopPullDownRefresh();
+      }, 1000);
+      return
+   }
     //  var obj = new { rowcount = data.Count, data = v };
     //console.log(res)
     const all = [...that.data.goodsList,...res.data]
@@ -135,11 +146,12 @@ Page({
    */
   onHide() {
     //在测试的时候,第一次分页加载实现了,后面都没有实现,在排查之后,发现经过第一次的分页之后this.data.page即当///前页面变为了3,在刷新页面之后并没有重新初始化为1,所以要在页面每次关闭之后将页面重新赋值为1,
-    this.data.nowPage = 1
+    this.setData({isShow: false ,nowPage :1 })
     //切换页面时调用API
     wx.pageScrollTo({
       scrollTop: 0
     })
+    
   },
 
   /**
@@ -154,9 +166,10 @@ Page({
    */
   onPullDownRefresh() {
     console.log('onPullDownRefresh')
-    this.data.nowPage = 1
-    this.data.rowcount = -1
-    this.data.goodsList = []
+    // this.data.nowPage = 1
+    // this.data.rowcount = -1
+    // this.data.goodsList = []
+    this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] })
     this.getList()
   },
 
@@ -174,5 +187,31 @@ Page({
   onShareAppMessage() {
 
   },
-  
+  PageScroll: function (e) {
+    if (e.scrollTop > 100) {
+     this.setData({
+      floorstatus: true
+     });
+    } else {
+     this.setData({
+      floorstatus: false
+     });
+    }
+   },
+  //回到顶部
+  goTop: function (e) { // 一键回到顶部
+    wx.pageScrollTo({
+      scrollTop: 0
+     })
+    // if (wx.pageScrollTo) {
+    //  wx.pageScrollTo({
+    //   scrollTop: 0
+    //  })
+    // } else {
+    //  wx.showModal({
+    //   title: '提示',
+    //   content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+    //  })
+    // }
+   }
 })
