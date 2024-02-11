@@ -1,13 +1,15 @@
 // pages/goodadd/goodadd.js
 import Dialog from '@vant/weapp/dialog/dialog';
 import Toast from '@vant/weapp/toast/toast';
+const app = getApp();
+const localhost = app.globalData.localhost;
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    show: false,
+    show: false, openid:wx.getStorageSync('openid'),message:'',
     buytime:'',tag:'',pid:0, title:'',desc:'',num:1,price:0.0
    
   },
@@ -40,7 +42,7 @@ Page({
       buytime: this.formatDate(event.detail),
     });
   },
-  click(){
+ async click(){
    // console.log(this.data)
    if(this.data.title == ''){
     //Toast.success('成功文案');
@@ -52,29 +54,52 @@ Page({
     });
     return
    }
-
    const that = this
-    Dialog.confirm({
-      title: '标题',
-      message: '弹窗内容',
-    })
-      .then(() => {
-        // on confirm
-        const copyObj = { ...that.data }
-        delete copyObj.show
-        delete copyObj.__webviewId__
-        //console.log(that.data)
-        console.log(copyObj)
-        const obj = JSON.stringify(copyObj)
-        console.log(obj)
-        
-        // wx.showToast({
-        //   title: '数据已提交',
-        // })
+   const result = await  Dialog.confirm({
+    title: '标题',
+    message: '弹窗内容',
+  })
+    .then( async () => {
+      // on confirm
+      const copyObj = { ...that.data }
+      delete copyObj.show
+      delete copyObj.__webviewId__
+      delete copyObj.message
+      //console.log(that.data)
+      console.log(copyObj)
+      const obj = JSON.stringify(copyObj)
+      console.log(obj)
+      const {data:res} = await wx.p.request({
+        url: localhost + '/wx/goodadd',
+        data:{ datalist :obj },
+        method:'POST'
       })
-      .catch(() => {
-        // on cancel
-      });
+      console.log(res)
+      that.setData({message:res.message})
+      if(!res.success){
+        Toast({
+          type: 'fail',
+          message: '提交失败：'+ res.message,
+          onClose: () => {
+            console.log('执行OnClose函数1');
+          },
+        })
+        return
+      }
+      Toast({
+        type: 'success',
+        message: '提交成功',
+        onClose: () => {
+          console.log('执行OnClose函数2');
+          that.setData({buytime:'',tag:'', title:'',desc:'',num:1,price:0.0})
+        },
+      })
+      //wx.showToast({  title: '数据已提交', })
+    })
+    .catch(() => {
+      // on cancel
+    });
+ 
   },
   async submit(){
     
@@ -138,5 +163,30 @@ Page({
    */
   onShareAppMessage() {
 
+  },
+  // 获取滚动条当前位置
+ PageScroll: function (e) {
+  if (e.scrollTop > 100) {
+   this.setData({
+    floorstatus: true
+   });
+  } else {
+   this.setData({
+    floorstatus: false
+   });
   }
+ },
+//回到顶部
+goTop: function (e) { // 一键回到顶部
+  if (wx.pageScrollTo) {
+   wx.pageScrollTo({
+    scrollTop: 0
+   })
+  } else {
+   wx.showModal({
+    title: '提示',
+    content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+   })
+  }
+ }
 })

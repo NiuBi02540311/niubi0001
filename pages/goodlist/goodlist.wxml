@@ -2,17 +2,19 @@
 固定van-nav-bar在顶部
 <van-nav-bar  border fixed placeholder
 -->
+<image src='/images/tabs/360.jpg' 
+class='goTop' hidden='{{!floorstatus}}' bindtap="goTop"></image>
 <van-nav-bar  custom-style="padding-top:2rpx;" 
-  title="数量：{{rowcount}}"
+  title="数量：{{rowcount <= 0 ? 0 : rowcount}}"
   left-text="返回主页"
-  right-text="新增商品"
+  right-text="新增物品"
   left-arrow
   bind:click-left="onClickLeft"
   bind:click-right="onClickRight"
 />
 
 <!-- <van-button type="primary" block>块级元素</van-button> -->
-<van-card  wx:for="{{goodsList}}" wx:key="index"
+<van-card  wx:for="{{goodsList}}" wx:key="index" 
   num="{{item.num}}"
   tag="{{item.tag}}"
   price="{{item.price}}"
@@ -23,20 +25,24 @@
 <view slot="tags" style="padding: 10rpx;">
   <view>
     <van-tag type="primary">购买时间:</van-tag>
-    <van-tag type="success" text-color="#ad0000" plain >2024.1.1</van-tag>
+    <van-tag type="success" text-color="#ad0000" plain >{{item.buytime}}</van-tag>
   </view>
   <view style="margin-top: 8rpx;">
     <van-tag type="primary">登记时间:</van-tag>
-    <van-tag type="success" text-color="#ad0000" plain >2024.1.10</van-tag>
+    <van-tag type="success" text-color="#ad0000" plain >{{item.addtime}}</van-tag>
   </view>
   </view>
 <view slot="footer">
-    <van-button size="mini" type="warning" style="margin-right:50rpx;" 
-    bind:tap="editHandler" bind:tap="deleteHandler" 
+  <van-button size="mini" type="warning" style="margin-right:50rpx;" 
+    bind:tap="deleteHandler" 
     data-id="{{item.id}}" data-title="{{item.title}}">删除</van-button>
     <van-button size="mini" bind:tap="editHandler" data-id="{{item.id}}">编辑</van-button>
   </view>
 </van-card>
+<view style="text-align: right;">
+  <van-button size="mini"  wx:if="{{false}}"  bind:tap="goTop" >返回顶部</van-button>
+</view>
+
 <van-toast id="van-toast" />
 <van-toast id="custom-selector" />
 <van-notify id="van-notify" />
