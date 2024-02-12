@@ -9,9 +9,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    show: false, openid:wx.getStorageSync('openid'),message:'',
-    buytime:'',tag:'',pid:0, title:'',desc:'',num:1,price:0.0
-   
+    show: false, openid:wx.getStorageSync('openid'),message:'',imgsrc:'',
+    buytime:'',tag:'',pid:0, title:'',desc:'',num:1,price:0.0,
+    pname:''
   },
 
   /**
@@ -19,8 +19,20 @@ Page({
    */
   onLoad(options) {
     console.log(options)
-    this.setData({ pid: options.id })
+    this.setData({ pid: options.id,pname:options.name })
     //this.setData({ ['good.pid']: options.id })
+  },
+  takePhoto() {
+    const ctx = wx.createCameraContext()
+    ctx.takePhoto({
+      quality: 'high',
+      success: (res) => {
+        console.log(res)
+        this.setData({
+          imgsrc: res.tempImagePath
+        })
+      }
+    })
   },
   onChangebuytime(){
     this.onDisplay()
@@ -56,8 +68,8 @@ Page({
    }
    const that = this
    const result = await  Dialog.confirm({
-    title: '标题',
-    message: '弹窗内容',
+    title: '发布提示',
+    message: '物品信息填写是否符合《管理办法》？',
   })
     .then( async () => {
       // on confirm
@@ -65,6 +77,8 @@ Page({
       delete copyObj.show
       delete copyObj.__webviewId__
       delete copyObj.message
+      delete copyObj.imgsrc
+      delete copyObj.pname
       //console.log(that.data)
       console.log(copyObj)
       const obj = JSON.stringify(copyObj)
@@ -119,7 +133,7 @@ Page({
    */
   onReady() {
     wx.setNavigationBarTitle({
-      title: '物品添加',
+      title: '物品信息添加',
     })
   },
 
@@ -155,7 +169,15 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-
+    const htmlSnip =
+          `<div class="div_class">
+            <h1>Title</h1>
+            <p class="p">
+              Life is&nbsp;<i>like</i>&nbsp;a box of
+              <b>&nbsp;chocolates</b>.
+            </p>
+          </div>
+          `
   },
 
   /**

@@ -76,15 +76,16 @@ App({
                 url: url + '/wx/code2Session?code='+ res.code,
                 method:"GET",
                 success:function(rs){
-                  console.log(rs.data)
+                  //console.log(rs.data)
                   wx.setStorageSync('session_key', rs.data.session_key)
                   wx.setStorageSync('openid', rs.data.openid)
+                  wx.setStorageSync('admin', rs.data.admin)
                 },
                 fail:function(err){
                   console.log(err)
                 }
               })
-              console.log('1111111111111111111111111111111111111111111')
+              //console.log('1111111111111111111111111111111111111111111')
             }
           })
         }
@@ -95,21 +96,22 @@ App({
         wx.login({
           success: res => {
             // 发送 res.code 到后台换取 openId, sessionKey, unionId
-            console.log(res)
+            //console.log(res)
             wx.setStorageSync('code', res.code)
             wx.request({
               url: url + '/wx/code2Session?code='+ res.code,
               method:"GET",
               success:function(rs){
-                console.log(rs.data)
+                //console.log(rs.data)
                 wx.setStorageSync('session_key', rs.data.session_key)
                 wx.setStorageSync('openid', rs.data.openid)
+                wx.setStorageSync('admin', rs.data.admin)
               },
               fail:function(err){
                 console.log(err)
               }
             })
-            console.log('1111111111111111111111111111111111111111111')
+            //console.log('1111111111111111111111111111111111111111111')
           }
         })
       }

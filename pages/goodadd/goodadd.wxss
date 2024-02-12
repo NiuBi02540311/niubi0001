@@ -19,3 +19,10 @@
  .fail{
   text-align: center; color: red;
 }
+.div_class_p {
+   font-size: 20rpx;
+}
+.div_class_ul {
+  font-size: 20rpx;
+  text-align: left;
+}

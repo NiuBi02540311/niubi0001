@@ -53,8 +53,8 @@ Component({
       "info":3
     },
     {
-      "pagePath": "/pages/contract/contract",
-      "text": "联系人",
+      "pagePath": "/pages/market/market",
+      "text": "圈子",
       "iconPath": "/images/tabs/ren2.png",
       "selectedIconPath": "/images/tabs/ren1.png",
       "icon":"friends-o"
