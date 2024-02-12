@@ -2,6 +2,7 @@
   "pages": [
     "pages/home/home",
     "pages/message/message",
+    "pages/market/market",
     "pages/contract/contract",
     "pages/goodlist/goodlist",
     "pages/goodadd/goodadd",
@@ -50,8 +51,8 @@
       "selectedIconPath": "/images/tabs/message2.png"
     },
     {
-      "pagePath": "pages/contract/contract",
-      "text": "联系人",
+      "pagePath": "pages/market/market",
+      "text": "圈子",
       "iconPath": "/images/tabs/ren2.png",
       "selectedIconPath": "/images/tabs/ren1.png"
     },
@@ -84,6 +85,7 @@
     "van-field": "@vant/weapp/field/index",
     "van-calendar": "@vant/weapp/calendar/index",
     "van-dialog": "@vant/weapp/dialog/index",
-    "banner": "/components/Banner/Banner"
+    "banner": "/components/Banner/Banner",
+    "fagui": "/components/fagui/fagui"
   }
 }

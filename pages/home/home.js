@@ -24,7 +24,12 @@ Page({
       actions:['updateNumA']
     })
     this.initData()
-    //console.log(localhost)
+
+    var myArray = [5, 2, 1, 4, 3]
+    var sortedArray = myArray.filter(function(value) {
+    return value != 2;
+    })
+    //console.log(sortedArray)
   },
  async initData(){
     const arr = [
@@ -42,7 +47,7 @@ Page({
       url:  localhost + '/wx/getHomeDatalist?openid='+openid,
       method:'GET'
     })
-    console.log(res)
+    //console.log(res)
     this.setData({ datalist:res })
   },
   ImgClick(e){

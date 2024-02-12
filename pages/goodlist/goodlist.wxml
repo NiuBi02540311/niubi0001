@@ -14,7 +14,7 @@ class='goTop' hidden='{{!floorstatus}}' bindtap="goTop"></image>
 />
 
 <!-- <van-button type="primary" block>块级元素</van-button> -->
-<van-card  wx:for="{{goodsList}}" wx:key="index" 
+<van-card  wx:for="{{goodsList}}" wx:key="index" wx:if="{{item.isdelete == 0}}"
   num="{{item.num}}"
   tag="{{item.tag}}"
   price="{{item.price}}"
@@ -24,6 +24,14 @@ class='goTop' hidden='{{!floorstatus}}' bindtap="goTop"></image>
 >
 <view slot="tags" style="padding: 10rpx;">
   <view>
+    <van-tag wx:if="{{false}}" type="danger">管理员</van-tag>
+    <van-tag wx:if="{{item.admin == 1 && admin}}" type="danger">管理员</van-tag>
+  </view>
+  <view>
+    <van-tag type="primary">物品编号:</van-tag>
+    <van-tag type="success" text-color="#ad0000" plain >{{item.id}}</van-tag>
+  </view>
+  <view style="margin-top: 8rpx;">
     <van-tag type="primary">购买时间:</van-tag>
     <van-tag type="success" text-color="#ad0000" plain >{{item.buytime}}</van-tag>
   </view>
@@ -33,10 +41,12 @@ class='goTop' hidden='{{!floorstatus}}' bindtap="goTop"></image>
   </view>
   </view>
 <view slot="footer">
-  <van-button size="mini" type="warning" style="margin-right:50rpx;" 
-    bind:tap="deleteHandler" 
-    data-id="{{item.id}}" data-title="{{item.title}}">删除</van-button>
-    <van-button size="mini" bind:tap="editHandler" data-id="{{item.id}}">编辑</van-button>
+  <van-button size="mini" type="info" style="margin-right:50rpx;" wx:if="{{item.approveID==0}}"
+    bind:tap="approveHandler"  data-index="{{index}}"
+    data-id="{{item.id}}" data-title="{{item.title}}">审核</van-button>
+  <van-button size="mini" type="warning" style="margin-right:50rpx;"  bind:tap="deleteHandler" 
+    data-id="{{item.id}}" data-title="{{item.title}}" data-index="{{index}}">删除</van-button>
+    <van-button size="mini" bind:tap="editHandler">编辑</van-button>
   </view>
 </van-card>
 <view style="text-align: right;">

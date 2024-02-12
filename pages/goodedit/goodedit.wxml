@@ -1,7 +1,8 @@
 <!--pages/goodedit/goodedit.wxml-->
-<text>pages/goodedit/goodedit.wxml</text>
 <van-cell-group>
-  <van-field value="{{ id }}" readonly   border="{{ true }}" disabled label="物品ID" />
+  <van-field value="{{ id }}" required readonly border="{{ true }}"  label="物品ID" />
+  <van-field value="{{ addtime }}" required readonly border="{{ true }}"  label="创建日期" />
+  <van-field value="{{ name }}" required readonly border="{{ true }}"  label="所属类别" />
   <van-field
     value="{{ title }}" required clearable  border="{{ true }}"
     label="名称" icon="question-o" placeholder="请输入物品名称" bind:click-icon="onClickIcon"  
@@ -32,6 +33,11 @@
     </van-button>
   </van-field> -->
 </van-cell-group>
+<view style="text-align: center;padding:20rpx">
+  <van-button type="info" size="small">保存信息</van-button>
+  <van-button type="warning" color="#7232dd" size="small" bind:tap="approveHandler"
+  wx:if="{{admin && approveID == 0}}">审核通过</van-button>
+</view>
 <van-grid column-num="3" border="{{ false }}" gutter="{{ 0 }}">
   <van-grid-item use-slot wx:for="{{ 3 }}"  wx:key="index" custom-class="vangriditem">
     <image
@@ -43,3 +49,6 @@
 
 <van-cell title="选择单个日期" value="{{ buytime }}" bind:click="onDisplay" />
 <van-calendar show="{{ show }}" bind:close="onClose" bind:confirm="onConfirm" />
+<van-toast id="van-toast" />
+<van-toast id="custom-selector" />
+<van-dialog id="van-dialog" />

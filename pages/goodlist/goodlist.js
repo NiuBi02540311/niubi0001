@@ -13,9 +13,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    query: {},floorstatus:false, isShow: false,
+    query: {},floorstatus:false, isShow: false,message:'',
     goodsList: [],
-    nowPage:  1,  pageSize : 5, rowcount  : -1
+    nowPage:  1,  pageSize : 5, rowcount  : -1,
+    admin: false
   },
 
   /**
@@ -24,7 +25,7 @@ Page({
   onLoad(options) {
     console.log(options)
     this.setData({
-      query : options
+      query : options, admin: wx.getStorageSync('admin')
     })
     this.getList()
   },
@@ -71,7 +72,7 @@ Page({
     //console.log(that.data.goodsList)
     
 		setTimeout(function () {
-      console.log('stopPullDownRefresh');
+      //console.log('stopPullDownRefresh');
       wx.hideLoading()
 			wx.stopPullDownRefresh();
 		}, 1000);
@@ -100,30 +101,130 @@ Page({
   onClickRight(e) {
     //wx.showToast({ title: '点击按钮', icon: 'none' });
     const pid = this.data.query.id
+    const name = this.data.query.name
     wx.navigateTo({
-      url: '/pages/goodadd/goodadd?id=' + pid,
+      url: '/pages/goodadd/goodadd?id=' + pid + '&name=' + name,
     })
   },
   editHandler(e){
     wx.navigateTo({
-      url: '/pages/goodedit/goodedit?id=' + e.target.dataset.id,
+      //url: '/pages/goodedit/goodedit?id=' + e.target.dataset.id + '&name='+ e.target.dataset.title,
+      url: '/pages/goodedit/goodedit?id=' + this.data.query.id + '&name='+ this.data.query.name,
     })
 
   },
-  deleteHandler(e){
-    console.log(e)
-    const id = e.target.dataset.id
+ async deleteHandler(e){
+    //console.log(e)
+    // var myArray = [5, 2, 1, 4, 3]
+    // var sortedArray = myArray.filter(function(value) {
+    // return value != 2;
+    // })
+    // let arr = [{name: '张三'}, {name: '李四'}, {name: '王五'}];
+    // arr.splice(index, 1); // index 表示要删除的元素所在的索引位置
+    // console.log(arr);
+    //console.log(sortedArray)
+    const that = this
+    const id    = e.target.dataset.id
     const title = e.target.dataset.title
-    Dialog.confirm({
-      title: '删除提示',
-      message: '确定要删除 ('+ title +') ?',
+    const index = e.target.dataset.index
+   Dialog.confirm({
+      title: '提示',
+      message: '确认要删除(' + title +')(' + id + ')？',
     })
-      .then(() => {
-        // on confirm
-      })
-      .catch(() => {
+      .then( async () => {
+        wx.showLoading()
+        const openid = await wx.getStorageSync('openid')
+        const admin = await wx.getStorageSync('admin')
+        const localhost = getApp().globalData.localhost
+        const {data:res} = await wx.p.request({
+          url: localhost + '/wx/gooddelete',
+          data:{ openid : openid, id: id ,isadmin : admin ? 1 : 0 },
+          method:'POST'
+        })
+        console.log(res)
+        that.setData({message:res.message})
+      
+        if(!res.success){
+          Toast({
+            type: 'fail',
+            message: '提交失败：'+ res.message,
+            onClose: () => {
+              console.log('执行OnClose函数1');
+              setTimeout(() => {  wx.hideLoading() }, 1000);
+            },
+          })
+         
+          return
+        }
+     
+            const copyObj = {...that.data.goodsList}
+            //copyObj.splice(index, 1);
+            copyObj[index].isdelete = 1
+            //delete copyObj[index]
+            //console.log(copyObj)
+            //console.log(copyObj.length)
+            that.setData({ goodsList: copyObj,rowcount: that.data.rowcount - 1 })
+            setTimeout(() => {  wx.hideLoading() }, 1000);
+            //console.log(that.data.goodsList)
+        //wx.showToast({  title: '数据已提交', })
+        
+      }).catch(() => {
         // on cancel
       })
+  },
+async  approveHandler(e){
+   const that = this
+    const id = e.target.dataset.id
+    //findIndex() 方法用于查找并返回数组中满足指定条件的第一个元素的索引。如果找不到满足条件的元素，将返回 -1
+    //const index2 = that.data.goodsList.findIndex(name => name.id === id)
+    const index = e.target.dataset.index
+    //console.log(index + '-' + index2)
+    
+    const result = await  Dialog.confirm({
+     title: '提示',
+     message: '确认要审核通过？',
+   })
+     .then( async () => {
+       wx.showLoading()
+       const openid =    await wx.getStorageSync('openid')
+       const {data:res} = await wx.p.request({
+         url: localhost + '/wx/goodapprove',
+         data:{ openid : openid, id: id },
+         method:'POST'
+       })
+       //console.log(res)
+       that.setData({message:res.message})
+       if(!res.success){
+         Toast({
+           type: 'fail',
+           message: '提交失败：'+ res.message,
+           onClose: () => {
+             console.log('执行OnClose函数1');
+             setTimeout(() => {  wx.hideLoading()  }, 1000);
+           },
+         })
+         return
+       }
+       const copyObj = { ...that.data.goodsList }
+       copyObj[index].approveID = 1
+       that.setData({ goodsList: copyObj})
+       setTimeout(() => {  wx.hideLoading()  }, 1000);
+      //  Toast({
+      //    type: 'success',
+      //    message: '提交成功',
+      //    onClose: () => {
+      //      console.log('执行OnClose函数2');
+      //       const copyObj = { ...that.data.goodsList }
+      //       copyObj[index].approveID = 1
+      //       that.setData({ goodsList: copyObj})
+      //    },
+      //  })
+       //wx.showToast({  title: '数据已提交', })
+     })
+     .catch(() => {
+       // on cancel
+     })
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

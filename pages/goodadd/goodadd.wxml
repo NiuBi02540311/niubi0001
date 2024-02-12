@@ -1,7 +1,8 @@
 <!--pages/goodadd/goodadd.wxml-->
 <!-- <text>pages/goodadd/goodadd.wxml</text> -->
 <van-cell-group>
-  <van-field model:value="{{ pid }}" required readonly   border="{{ true }}" label="PID" />
+  <van-field value="{{ pid }}" required readonly   border="{{ true }}" label="PID" />
+  <van-field value="{{ pname }}" required readonly   border="{{ true }}" label="分类" />
   <van-field
   model:value="{{ title }}" required clearable  border="{{ true }}"
     label="名称" icon="question-o" placeholder="请输入物品名称"  bind:click-icon="onClickIcon"  
@@ -36,10 +37,20 @@
 <view class="{{message =='ok' || message =='' ?'ok':'fail'}}">
     <text>{{message}}</text>
 </view>
-<van-cell title="选择单个日期" value="{{ buytime }}" bind:click="onDisplay" />
 <van-calendar show="{{ show }}" bind:close="onClose" bind:confirm="onConfirm" />
 <van-dialog id="van-dialog" />
 <van-toast id="van-toast" />
+<view>
+  <rich-text nodes="" wx:if="{{false}}"></rich-text>
+</view>
+<fagui></fagui>
+<view wx:if="{{false}}">
+<camera device-position="back" flash="off" binderror="error" style="width: 100%; height: 300px;"></camera>
+<button type="primary" bindtap="takePhoto">拍照</button>
+<view>预览</view>
+<image mode="widthFix" src="{{imgsrc}}"></image>
+</view>
+
 
 
 

@@ -1,0 +1,4 @@
+<!--components/fagui/fagui.wxml-->
+<view>
+  <rich-text nodes="{{htmlSnip}}"></rich-text>
+</view>
