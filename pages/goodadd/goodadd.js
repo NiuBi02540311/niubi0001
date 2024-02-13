@@ -4,14 +4,15 @@ import Toast from '@vant/weapp/toast/toast';
 const app = getApp();
 const localhost = app.globalData.localhost;
 Page({
-
+  options:{
+    styleIsolation:"shared"
+  },
   /**
    * 页面的初始数据
    */
   data: {
-    show: false, openid:wx.getStorageSync('openid'),message:'',imgsrc:'',
-    buytime:'',tag:'',pid:0, title:'',desc:'',num:1,price:0.0,
-    pname:''
+    show: false, openid:wx.getStorageSync('openid'),message:'',imgsrc:'',pname:'',
+    buytime:'',tag:'',pid:0, title:'',desc:'',num:1,price:0.0,shared:1,
   },
 
   /**
@@ -21,6 +22,10 @@ Page({
     console.log(options)
     this.setData({ pid: options.id,pname:options.name })
     //this.setData({ ['good.pid']: options.id })
+  },
+  switchonChange(e){
+    //console.log(e)
+    this.setData({ shared: e.detail ? 1:0 });
   },
   takePhoto() {
     const ctx = wx.createCameraContext()

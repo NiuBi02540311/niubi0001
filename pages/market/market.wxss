@@ -1,1 +1,6 @@
 /* pages/market/market.wxss */
+.van-card {
+  --card-background-color:#fffff;
+  border: 2rpx solid rgb(126, 123, 123);
+  margin: 10rpx;
+}

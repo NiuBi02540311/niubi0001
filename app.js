@@ -70,7 +70,7 @@ App({
           wx.login({
             success: res => {
               // 发送 res.code 到后台换取 openId, sessionKey, unionId
-              console.log(res)
+              // console.log(res)
               wx.setStorageSync('code', res.code)
               wx.request({
                 url: url + '/wx/code2Session?code='+ res.code,

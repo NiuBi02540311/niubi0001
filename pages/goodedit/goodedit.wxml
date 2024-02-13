@@ -2,27 +2,28 @@
 <van-cell-group>
   <van-field value="{{ id }}" required readonly border="{{ true }}"  label="物品ID" />
   <van-field value="{{ addtime }}" required readonly border="{{ true }}"  label="创建日期" />
+  <van-field value="{{ updatetime }}" required readonly border="{{ true }}"  label="修改日期" />
   <van-field value="{{ name }}" required readonly border="{{ true }}"  label="所属类别" />
   <van-field
-    value="{{ title }}" required clearable  border="{{ true }}"
+    model:value="{{ title }}" required clearable  border="{{ true }}"
     label="名称" icon="question-o" placeholder="请输入物品名称" bind:click-icon="onClickIcon"  
   />
   <van-field
-    value="{{ desc }}"  label="描述" type="textarea"
+  model:value="{{ desc }}"  label="描述" type="textarea" clearable
     placeholder="请输入物品描述"  autosize  border="{{ true }}"
   />
   <van-field
-    value="{{ num }}"  clearable  border="{{ true }}" type="number"
-    label="数量"  placeholder="请输入物品数量"  bind:change="onChange"
+  model:value="{{ num }}"  clearable  border="{{ true }}" type="number" clearable
+    label="数量"  placeholder="请输入物品数量"  bind:change=""
   />
   <van-field
-    value="{{ price }}"  clearable  border="{{ true }}" type="digit"
-    label="价格"  placeholder="请输入物品数量"  bind:change="onChange"
+  model:value="{{ price }}"  clearable  border="{{ true }}" type="digit" clearable
+    label="价格"  placeholder="请输入物品数量"  bind:change=""
   />
   <van-field
-    value="{{ tag }}"  clearable  border="{{ true }}" label="标签"  placeholder="请输入物品标签"  />
+  model:value="{{ tag }}"  clearable  border="{{ true }}" label="标签"  placeholder="请输入物品标签"  />
   <van-field
-    value="{{ buytime }}"  clearable  border="{{ true }}" label="购入日期"  
+  model:value="{{ buytime }}"  clearable  border="{{ true }}" label="购入日期"  
     placeholder="请输入日期" bind:focus="onChangebuytime" />
   <!-- <van-field
     value="{{ sms }}"  center clearable label="短信验证码"
@@ -32,9 +33,12 @@
       发送验证码
     </van-button>
   </van-field> -->
+  <van-cell title="是否把物品分享到圈子:{{shared == 1 ?'是':'否'}}" required  >
+    <van-switch checked="{{ shared == 1 }}"  bind:change="switchonChange" />
+ </van-cell>
 </van-cell-group>
 <view style="text-align: center;padding:20rpx">
-  <van-button type="info" size="small">保存信息</van-button>
+  <van-button type="info" size="small" bind:tap="UpdateGooddata">保存信息</van-button>
   <van-button type="warning" color="#7232dd" size="small" bind:tap="approveHandler"
   wx:if="{{admin && approveID == 0}}">审核通过</van-button>
 </view>
@@ -46,9 +50,8 @@
     />
   </van-grid-item>
 </van-grid>
-
-<van-cell title="选择单个日期" value="{{ buytime }}" bind:click="onDisplay" />
-<van-calendar show="{{ show }}" bind:close="onClose" bind:confirm="onConfirm" />
+<fagui></fagui>
 <van-toast id="van-toast" />
 <van-toast id="custom-selector" />
 <van-dialog id="van-dialog" />
+<van-notify id="van-notify" />

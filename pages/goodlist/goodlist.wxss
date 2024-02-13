@@ -1,7 +1,7 @@
 /* pages/goodlist/goodlist.wxss */
 .van-card {
-  --card-background-color:#f3f2de;
-  border: 2rpx solid red;
+  --card-background-color:#fffff;
+  border: 2rpx solid rgb(126, 123, 123);
   margin: 10rpx;
 }
 /* 金额/虚拟价格 - 上浮 */
