@@ -12,7 +12,10 @@ class='goTop' hidden='{{!floorstatus}}' bindtap="goTop"></image>
   bind:click-left="onClickLeft"
   bind:click-right="onClickRight"
 />
-
+<View>
+  <van-search value="{{ searchvalue }}" placeholder="请输入搜索关键词"  input-align="center"
+  bind:search="onSearch"  bind:change="onChange"   bind:clear ="onClear"/>
+</View>
 <!-- <van-button type="primary" block>块级元素</van-button> -->
 <van-card  wx:for="{{goodsList}}" wx:key="index" wx:if="{{item.isdelete == 0}}"
   num="{{item.num}}"
@@ -46,7 +49,7 @@ class='goTop' hidden='{{!floorstatus}}' bindtap="goTop"></image>
     data-id="{{item.id}}" data-title="{{item.title}}">审核</van-button>
   <van-button size="mini" type="warning" style="margin-right:50rpx;"  bind:tap="deleteHandler" 
     data-id="{{item.id}}" data-title="{{item.title}}" data-index="{{index}}">删除</van-button>
-    <van-button size="mini" bind:tap="editHandler">编辑</van-button>
+    <van-button size="mini" bind:tap="editHandler"  data-id="{{item.id}}">编辑</van-button>
   </view>
 </van-card>
 <view style="text-align: right;">

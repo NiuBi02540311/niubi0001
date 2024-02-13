@@ -16,7 +16,7 @@ Page({
     query: {},floorstatus:false, isShow: false,message:'',
     goodsList: [],
     nowPage:  1,  pageSize : 5, rowcount  : -1,
-    admin: false
+    admin: false,searchvalue:''
   },
 
   /**
@@ -28,6 +28,68 @@ Page({
       query : options, admin: wx.getStorageSync('admin')
     })
     this.getList()
+  },
+  onTest(){
+    // 定义一个包含多个对象的数组
+    var arr = [
+      { name: '张三', age: 20 },
+      { name: '李四', age: 30 },
+      { name: '王五', age: 40 }
+    ];
+    // 输入要查询的关键字
+    var keyword = "张";
+    // 使用 filter() 函数进行模糊查询
+    var result = arr.filter(function (obj) {
+      return obj.name.includes(keyword); // 判断名称属性是否包含指定的关键字
+    });
+    console.log(result); // 打印结果
+  },
+  onChange(e){
+    this.setData({ searchvalue: e.detail, });
+  },
+  onClear(){
+    this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] ,searchvalue:''})
+    this.getList()
+  },
+  onSearch(){
+    // var myArray = [5, 2, 1, 4, 3]
+    // var sortedArray2 = myArray.filter(function(value) {
+    // return value != 2;
+    // })
+    //let arr = this.data.goodsList
+    let arr = Array.from(this.data.goodsList)
+    //console.log('8888888888888888888888888888888')
+    //console.log(arr)
+    if(arr == [] || arr.length == 0){
+      this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] ,searchvalue:''})
+      this.getList()
+      return
+    }
+    const searchvalue = this.data.searchvalue
+    console.log(searchvalue)
+    console.log(searchvalue.length)
+    if(searchvalue.length == 0){
+      this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] })
+      this.getList()
+      return
+    }
+    const admin = wx.getStorageSync('admin')
+    let sortedArray = [];
+    //console.log('111111111111111111111111111111111111111111')
+    //console.log(arr)
+    if(admin && searchvalue == '未审核'){
+        sortedArray = arr.filter(function(item) {
+        return   item.approveID == 0 
+        })
+    }else{
+       sortedArray = arr.filter(function(item) {
+        return   item.title.includes(searchvalue) || item.desc.includes(searchvalue) 
+        })
+    }
+   
+    console.log(sortedArray)
+    //this.setData({rowcount:sortedArray.length,goodsList: sortedArray,searchvalue:''})
+    this.setData({rowcount:sortedArray.length,goodsList: sortedArray})
   },
   async  getList(){
     // 请求数据后
@@ -107,9 +169,10 @@ Page({
     })
   },
   editHandler(e){
+    console.log(e)
     wx.navigateTo({
       //url: '/pages/goodedit/goodedit?id=' + e.target.dataset.id + '&name='+ e.target.dataset.title,
-      url: '/pages/goodedit/goodedit?id=' + this.data.query.id + '&name='+ this.data.query.name,
+      url: '/pages/goodedit/goodedit?id=' + e.target.dataset.id + '&name='+ this.data.query.name,
     })
 
   },
@@ -187,9 +250,10 @@ async  approveHandler(e){
      .then( async () => {
        wx.showLoading()
        const openid =    await wx.getStorageSync('openid')
+       const admin =     await wx.getStorageSync('admin')
        const {data:res} = await wx.p.request({
          url: localhost + '/wx/goodapprove',
-         data:{ openid : openid, id: id },
+         data:{ openid : openid, id: id ,isadmin: admin ? 1: 0},
          method:'POST'
        })
        //console.log(res)

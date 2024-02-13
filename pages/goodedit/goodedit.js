@@ -1,13 +1,14 @@
 // pages/goodedit/goodedit.js
-import  Toast  from '@vant/weapp/toast/toast';
-import Dialog from '@vant/weapp/dialog/dialog';
+import  Toast  from '@vant/weapp/toast/toast'
+import Dialog from '@vant/weapp/dialog/dialog'
+import Notify from '@vant/weapp/notify/notify'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    show: false,message:'',name:'',
+    show: false,message:'',name:'',shared:1,updatetime:'',
     id:0 ,buytime:'',tag:'',addtime:'',
     title:'',desc:'',num:1,price:0.0,approveID:0,
     admin:wx.getStorageSync('admin')
@@ -19,6 +20,10 @@ Page({
     console.log(options)
     this.setData({id:options.id,name:options.name})
     this.getGoodData()
+  },
+  switchonChange(e){
+    //console.log(e)
+    this.setData({ shared: e.detail ? 1:0 });
   },
   async getGoodData(){
     const openid = await wx.getStorageSync('openid')
@@ -37,13 +42,13 @@ Page({
       return
     }
     this.setData({ 
-      title:res.data.title,
+      title:res.data.title,updatetime:res.data.updatetime,
       desc:res.data.desc,
       num:res.data.num,
       price:res.data.price,
       tag:res.data.tag,
       buytime:res.data.buytime,addtime:res.data.addtime,
-      approveID:res.data.approveID
+      approveID:res.data.approveID,shared:res.data.shared
     })
   },
   async approveHandler(){
@@ -93,6 +98,68 @@ Page({
         // on cancel
       })
       
+  },
+  async UpdateGooddata(){
+    const t = this.data
+    const ts = this
+    const datalist = {
+       shared:t.shared, id:t.id ,buytime:t.buytime,tag:t.tag, title:t.title,desc:t.desc,num:t.num,price:t.price
+    }
+    //goodedit
+    console.log(datalist)
+    // console.log(this.data)
+   if(t.title.length == 0){
+    Dialog.alert({
+      message: '带*的是必填项,请检查!',
+    }).then(() => {
+      // on close
+    })
+    return
+   }
+   
+   const result = await  Dialog.confirm({
+    title: '发布提示',
+    message: '物品信息填写是否符合《管理办法》？',
+  })
+    .then( async () => {
+      // on confirm
+      const obj = JSON.stringify(datalist)
+      const localhost = getApp().globalData.localhost
+      const admin = await wx.getStorageSync('admin')
+      const openid = await wx.getStorageSync('openid')
+      console.log(obj)
+      const {data:res} = await wx.p.request({
+        url: localhost + '/wx/goodedit',
+        data:{ datalist :obj ,openid:openid,isadmin : admin ? 1:0 },
+        method:'POST'
+      })
+      console.log(res)
+      //that.setData({message:res.message})
+      if(!res.success){
+        // Toast({
+        //   type: 'fail',
+        //   message: '提交失败：'+ res.message,
+        //   onClose: () => {
+        //     console.log('执行OnClose函数1');
+        //   },
+        // })
+        ts.setData({updatetime:res.updatetime})
+        Notify({ type: 'danger', message: '提交失败：'+ res.message,duration:5000 })
+        return
+      }
+      Notify({ type: 'success', message: '提交成功：'+ res.message,duration:3000 })
+      // Toast({
+      //   type: 'success',
+      //   message: '提交成功',
+      //   onClose: () => {
+      //     console.log('执行OnClose函数2')
+      //   },
+      // })
+      //wx.showToast({  title: '数据已提交', })
+    })
+    .catch(() => {
+      // on cancel
+    });
   },
   onChangebuytime(){
     this.onDisplay()

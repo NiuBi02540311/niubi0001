@@ -85,7 +85,11 @@
     "van-field": "@vant/weapp/field/index",
     "van-calendar": "@vant/weapp/calendar/index",
     "van-dialog": "@vant/weapp/dialog/index",
+    "van-search": "@vant/weapp/search/index",
     "banner": "/components/Banner/Banner",
+    "van-switch": "@vant/weapp/switch/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
     "fagui": "/components/fagui/fagui"
   }
 }

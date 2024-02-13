@@ -26,3 +26,10 @@
   font-size: 20rpx;
   text-align: left;
 }
+
+.van-cell__value{
+text-align :left;
+}
+.cell_swtich{
+  color: red;
+}
