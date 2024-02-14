@@ -20,7 +20,7 @@ Page({
     //this.getList()
     this.getSupplyList(true)
   },
- async getList(){
+   async getList(){
    console.log('getList')
     const t = this //在回调甘薯里,this有时候不能直接用,防止出bug所初始化一个that
     const d = this.data
@@ -71,7 +71,56 @@ Page({
 			wx.stopPullDownRefresh();
 		}, 1000);
   },
-async  getSupplyList(reachBottom) {
+  async  getSupplyList(reachBottom) {
+  const t = this;//在回调甘薯里,this有时候不能直接用,防止出bug所初始化一个that
+  if (t.data.goodsList.length == t.data.rowcount) {
+      //判断当前也是否小于t总页数
+      Notify({ type: 'success', message: '数据已全部显示,点击返回顶部',duration:5000, color: '#ad0000',      safeAreaInsetTop:false,onClick:this.NotifyonClick
+      // onClick() {
+      //   //wx.pageScrollTo({ scrollTop: 0 })
+      // }
+      })
+      return false
+   } 
+    wx.showLoading({
+      title: '加载中...',
+    });
+    
+    const searchvalue =  encodeURIComponent(t.data.searchvalue)
+    const openid = await wx.getStorageSync('openid') 
+    const admin = await wx.getStorageSync('admin')  
+    const isadmin =  admin ?  1:  0
+    const {data:res} = await wx.p.request({
+      url: localhost + `/wx/getquanzdatalist?openid=${openid}&nowPage=${t.data.nowPage}&pageSize=${t.data.pageSize}&isadmin=${isadmin}&searchvalue=${searchvalue}`,
+      method:'GET'
+    })
+   
+    console.log(res)
+    if(res.data == [] || res.data == null || res.data == undefined || res.rowcount == 0){
+      this.setData({nowPage:1,goodsList:[],rowcount :-1,searchvalue:''})
+      wx.hideLoading()
+      Notify({ type: 'success', message: '查询无数据',duration:3000, color: '#ad0000',      safeAreaInsetTop:false
+      })
+      return false
+    }
+    let supplyList = []
+    if (reachBottom) {
+      supplyList = [...t.data.goodsList, ...res.data]//将新数据加入老数据中
+    }
+    const NewIndex = t.data.nowPage +  1
+    t.setData({//将获取的值赋值给data中的数组和总页数
+      goodsList: supplyList,
+      rowcount: res.rowcount,nowPage:NewIndex
+    });
+    //t.data.nowPage++ //所有操作完成后页数加一
+    setTimeout(function () {
+      console.log('stopPullDownRefresh');
+      wx.hideLoading();
+      wx.stopPullDownRefresh();
+    }, 1000);
+    console.log(t.data.goodsList)
+  },
+  async  getSupplyList2(reachBottom) {
     wx.showLoading({
       title: '加载中...',
     });
@@ -112,7 +161,33 @@ async  getSupplyList(reachBottom) {
     //this.getList()
     this.getSupplyList(true)
   },
-  onSearch(){
+   onSearch(){
+    this.setData({nowPage :1,rowcount:-1,goodsList:[]})
+    this.getSupplyList(true)
+    // var str='{u:abc,w:123}'
+    // str= encodeURIComponent(str)
+    // console.log('encodeURIComponent',str);
+    // str=decodeURIComponent(str);
+    // console.log('encodeURIComponent',str)
+
+    // wx.showLoading({ title: '数据加载中' })
+    // const openid = await wx.getStorageSync('openid') 
+    // const admin = await wx.getStorageSync('admin')  
+    // const isadmin =  admin ?  1:  0
+    // this.setData({nowPage:1})
+    // const d = this.data
+    // const searchvalue =  encodeURIComponent(d.searchvalue)
+    // const {data:res} = await wx.p.request({
+    //   url: localhost + `/wx/getquanzdatalist?openid=${openid}&nowPage=${d.nowPage}&pageSize=${d.pageSize}&isadmin=${isadmin}&searchvalue=${searchvalue}`,
+    //   method:'GET'
+    // })
+    // console.log(res)
+    // setTimeout(function () {
+    //   wx.hideLoading()
+		// 	wx.stopPullDownRefresh();
+		// }, 1000)
+  },
+  onSearch2(){
     
     let arr = Array.from(this.data.goodsList)
     //console.log('8888888888888888888888888888888')
@@ -208,7 +283,11 @@ async  getSupplyList(reachBottom) {
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    console.log('onReachBottom')
+    console.log('onReachBottom1')
+    this.getSupplyList(true);//调用方法
+  },
+  onReachBottom2() {
+    console.log('onReachBottom2')
     //console.log('this.data.goodsList.length =' + this.data.goodsList.length)
     //console.log('this.data.rowcount =' + this.data.goodsList.length)
     //this.getList()
