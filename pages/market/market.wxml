@@ -1,13 +1,13 @@
 <!--pages/market/market.wxml-->
 <van-nav-bar  custom-style="padding-top:2rpx;" 
-  title="数量：{{rowcount}}"
+  title="数量： {{goodsList.length}} / {{rowcount > 0 ? rowcount : 0}}"
   left-text="返回主页"
   right-text="刷新数据"
-  left-arrow
+  left-arrow  fixed safe-area-inset-top  placeholder
   bind:click-left="onClickLeft"
   bind:click-right="onClickRight"
 />
-<View>
+<View style="margin-top: 0rpx;">
   <van-search value="{{ searchvalue }}" placeholder="请输入搜索关键词"  input-align="center"
   bind:search="onSearch"  bind:change="onChange"   bind:clear ="onClear"/>
 </View>
