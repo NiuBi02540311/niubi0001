@@ -11,7 +11,9 @@ Page({
     show: false,message:'',name:'',shared:1,updatetime:'',
     id:0 ,buytime:'',tag:'',addtime:'',
     title:'',desc:'',num:1,price:0.0,approveID:0,
-    admin:wx.getStorageSync('admin')
+    admin:wx.getStorageSync('admin'),
+    fileList:[],filesize: 1024 * 1024,fileUploadChecked:false,fileUploadMessage:'',
+    maxcount:5
   },
   /**
    * 生命周期函数--监听页面加载
@@ -20,6 +22,116 @@ Page({
     console.log(options)
     this.setData({id:options.id,name:options.name})
     this.getGoodData()
+    const img = [
+      {
+        url: 'https://img.yzcdn.cn/vant/leaf.jpg',
+        status: 'uploading',
+        message: '上传中',
+      },
+      {
+        url: 'https://img.yzcdn.cn/vant/tree.jpg',
+        status: 'failed',
+        message: '上传失败',
+      },
+    ]
+    //this.setData({fileList:img})
+    this.GetGoodImg()
+  },
+  beforeRead(event) {
+    console.log('beforeRead');
+    //console.log(event)
+    //绑定 before-read 事件可以在上传前进行校验，
+    //调用 callback 方法传入 true 表示校验通过，传入 false 表示校验失败
+    const { file, callback } = event.detail;
+    //const url = {url:file.url} 
+    let message = ''
+    const imgOk  = file.type === 'image'
+    if(imgOk == false){
+      message +='文件类型必须是图片'
+    }
+    const sizeOk = file.size < this.data.filesize
+    if(sizeOk == false){
+      message +=' 文件大小不能超过1M'
+    }
+    console.log(sizeOk + "-" + imgOk)
+    const Ok = imgOk && sizeOk
+    if(Ok == false){
+        // wx.showToast({
+        //   title: Message,
+        // })
+        Notify({ type: 'danger', message:message ,duration:6000 })
+    }
+    
+   // this.setData({fileUploadChecked:Ok,fileUploadMessage:Message})
+    callback(Ok)
+   
+    
+  },
+  afterRead(event) {
+    console.log('afterRead');
+    console.log(event);
+    wx.showLoading({
+      title: '上传中',
+    })
+    const openid = wx.getStorageSync('openid')
+    const uid = wx.getStorageSync('uid')
+    const { file } = event.detail;
+    const localhost = getApp().globalData.localhost
+    console.log(file.url)
+    const t = this 
+    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+    wx.uploadFile({
+      url: localhost +'/wx/NewUploadImg', // 仅为示例，非真实的接口地址
+      filePath: file.url,
+      name: 'file',
+      formData: { GoodID: t.data.id,openid: openid,uid:uid},
+      success(res) {
+        console.log(res)
+        if(res.statusCode == 200 && res.errMsg == "uploadFile:ok"){
+            // 上传完成需要更新 fileList
+            const obj = JSON.parse(res.data)
+            const { fileList = [] } = t.data;
+            fileList.push({ ...file, url: obj.message });
+            t.setData({ fileList });
+        }else{
+          wx.showToast({
+            title: '上传失败',
+          })
+        }
+        setTimeout(() => {
+          wx.hideLoading()
+        }, 1000);
+      }
+    });
+  },
+  uploadFile(uploadFile) {
+    return new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: 'config.uploadUrl', // 上传的服务器接口地址
+        filePath: uploadFile, 
+        name: 'file', //上传的所需字段，后端提供
+        success: (res) => {
+          // 上传完成操作
+          const data = JSON.parse(res.data)
+          const url = data.data.url  
+          resolve({
+            url: url
+          })
+        },
+        fail: (err) => {
+          //上传失败：修改pedding为reject
+          reject(err)
+        }
+      });
+    })
+  },
+  deleteImg(event) {
+    const delIndex = event.detail.index
+    const { fileList } = this.data
+    fileList.splice(delIndex, 1)
+    this.setData({
+      fileList
+    })
   },
   switchonChange(e){
     //console.log(e)
@@ -160,6 +272,30 @@ Page({
     .catch(() => {
       // on cancel
     });
+  },
+  async GetGoodImg(){
+      const t = this
+      const admin = await wx.getStorageSync('admin')
+      const openid = await wx.getStorageSync('openid')
+      const localhost = getApp().globalData.localhost
+      const {data:res} = await wx.p.request({
+        url: localhost + '/wx/GetGoodImg',
+        data:{ GoodID :t.data.id ,openid:openid},
+        method:'GET'
+      })
+      console.log(res)
+      if(!res.success){
+        Notify({ type: 'danger', message: 'GetGoodImg请求失败',duration:6000 })
+        return
+      }
+      const imgList = res.data
+      let img = []
+      imgList.forEach(function(item) {
+        //console.log(item.ImgUrl);
+        img.push({url:localhost + item.ImgUrl})
+      })
+      ///const newList = [...t.data.fileList,...img]
+      t.setData({fileList:img})
   },
   onChangebuytime(){
     this.onDisplay()
