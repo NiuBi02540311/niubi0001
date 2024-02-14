@@ -36,14 +36,25 @@
   <van-cell title="是否把物品分享到圈子:{{shared == 1 ?'是':'否'}}" required  >
     <van-switch checked="{{ shared == 1 }}"  bind:change="switchonChange" />
  </van-cell>
+ <van-cell title="已上传照片数：{{ fileList.length }}" readonly  >
+    <text>(数量最多{{maxcount}},单张最大1M)</text>
+ </van-cell>
+ 
 </van-cell-group>
+<View style="text-align: left;border: 2rpx solid #2c2c2b;margin:10rpx;">
+  <van-uploader file-list="{{ fileList }}"  accept="image"  use-before-read  max-count="{{maxcount}}" bind:before-read="beforeRead" bind:after-read="afterRead" multiple="{{false}}">
+</van-uploader>
+</View>
 <view style="text-align: center;padding:20rpx">
   <van-button type="info" size="small" bind:tap="UpdateGooddata">保存信息</van-button>
   <van-button type="warning" color="#7232dd" size="small" bind:tap="approveHandler"
   wx:if="{{admin && approveID == 0}}">审核通过</van-button>
 </view>
+<view style="color: red; text-align: center;" wx:if="{{fileUploadChecked}}">
+{{fileUploadMessage}}
+</view>
 <van-grid column-num="3" border="{{ false }}" gutter="{{ 0 }}">
-  <van-grid-item use-slot wx:for="{{ 3 }}"  wx:key="index" custom-class="vangriditem">
+  <van-grid-item use-slot wx:for="{{ 0 }}"  wx:key="index" custom-class="vangriditem">
     <image
       style="width: 100%; height: 90px;"
       src="https://img.yzcdn.cn/vant/apple-{{ index + 1 }}.jpg"

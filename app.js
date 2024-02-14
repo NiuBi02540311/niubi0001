@@ -80,6 +80,7 @@ App({
                   wx.setStorageSync('session_key', rs.data.session_key)
                   wx.setStorageSync('openid', rs.data.openid)
                   wx.setStorageSync('admin', rs.data.admin)
+                  wx.setStorageSync('uid', rs.data.uid)
                 },
                 fail:function(err){
                   console.log(err)
@@ -106,6 +107,7 @@ App({
                 wx.setStorageSync('session_key', rs.data.session_key)
                 wx.setStorageSync('openid', rs.data.openid)
                 wx.setStorageSync('admin', rs.data.admin)
+                wx.setStorageSync('uid', rs.data.uid)
               },
               fail:function(err){
                 console.log(err)
