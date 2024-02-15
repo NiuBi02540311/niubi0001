@@ -7,10 +7,22 @@
     "pages/goodlist/goodlist",
     "pages/goodadd/goodadd",
     "pages/goodedit/goodedit",
+    "pages/goodshow/goodshow",
     "pages/index/index",
     "pages/test/test",
     "pages/logs/logs"
   
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示" 
+    }
+  },
+  "requiredPrivateInfos": [ 
+    "getLocation",
+    "onLocationChange",
+    "startLocationUpdateBackground",
+    "chooseAddress"
   ],
   "preloadRule": {
     "pages/contract/contract":{ "packages": ["p1"],"network": "all" },
@@ -64,7 +76,7 @@
   },
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "家中物品管理",
     "navigationBarBackgroundColor": "#ffffff"
   },
   "componentFramework": "glass-easel",

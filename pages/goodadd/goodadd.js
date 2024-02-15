@@ -184,12 +184,33 @@ Page({
           </div>
           `
   },
-
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage() {
-
+  onShareAppMessage(e) {
+    console.log('onShareAppMessage')
+    console.log(e)
+    const promise = new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          title: '自定义转发标题'
+        })
+      }, 2000)
+    })
+    return {
+      title: '自定义转发标题',
+      path: '/page/user?id=123',
+      promise 
+    }
+  },
+  onShareTimeline(e){
+    console.log('onShareTimeline')
+    console.log(e)
+    return {
+      title: '我是测试标题，你可以随便修改',
+      path: '/pages/index/index',
+      imageUrl: 'xxx.jpg'
+    }
   },
   // 获取滚动条当前位置
  PageScroll: function (e) {

@@ -1,0 +1,3 @@
+<!--pages/goodshow/goodshow.wxml-->
+<text>pages/goodshow/goodshow.wxml</text>
+<view> id = {{id}}</view>

@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    nowPage :1,pageSize:5,rowcount:-1,goodsList:[] ,searchvalue:'',isShow:false
+    nowPage :1,pageSize:5,pageCount:0,rowcount:-1,goodsList:[] ,searchvalue:'',isShow:false
   },
 
   /**
@@ -19,6 +19,7 @@ Page({
   onLoad(options) {
     //this.getList()
     this.getSupplyList(true)
+    
   },
    async getList(){
    console.log('getList')
@@ -57,12 +58,15 @@ Page({
       }, 1000);
       return
     }
+    if(d.nowPage == 1){
+      t.setData({rowcount:res.rowcount,pageCount:res.pageCount})
+    }
     const all = {...this.data.goodsList,...res.data}
     console.log(all)
     //t.setData({nowPage:d.nowPage + 1,})
     const index = d.nowPage +1
     const rowcount = res.rowcount
-    t.setData({ goodsList:all,nowPage:index,rowcount : rowcount })
+    t.setData({ goodsList:all,nowPage:index })
     console.log('this.data.goodsList.length =' + all.length)
     console.log('this.data.rowcount =' + this.data.rowcount)
     setTimeout(function () {
@@ -72,16 +76,31 @@ Page({
 		}, 1000);
   },
   async  getSupplyList(reachBottom) {
-  const t = this;//在回调甘薯里,this有时候不能直接用,防止出bug所初始化一个that
-  if (t.data.goodsList.length == t.data.rowcount) {
-      //判断当前也是否小于t总页数
-      Notify({ type: 'success', message: '数据已全部显示,点击返回顶部',duration:5000, color: '#ad0000',      safeAreaInsetTop:false,onClick:this.NotifyonClick
-      // onClick() {
-      //   //wx.pageScrollTo({ scrollTop: 0 })
-      // }
-      })
-      return false
-   } 
+    const t = this;//在回调甘薯里,this有时候不能直接用,防止出bug所初始化一个that
+    //const rowcount = t.data.rowcount < 0 ? 0 : t.data.rowcount
+    if (t.data.pageCount > t.data.nowPage - 1) {//判断当前也是否小于总页数
+      // ok
+    } else {
+      if(t.data.nowPage > 1)
+      {
+            Notify({ type: 'success', message: '数据已全部显示,点击返回顶部8',duration:5000, color: '#ad0000',      safeAreaInsetTop:false,onClick:this.NotifyonClick
+            // onClick() {
+            //   //wx.pageScrollTo({ scrollTop: 0 })
+            // }
+            })
+          return 
+      }
+      
+    }
+      //if (t.data.goodsList.length == t.data.rowcount) {
+          //判断当前也是否小于t总页数
+      //     Notify({ type: 'success', message: '数据已全部显示,点击返回顶部',duration:5000, color: '#ad0000',      safeAreaInsetTop:false,onClick:this.NotifyonClick
+      //     // onClick() {
+      //     //   //wx.pageScrollTo({ scrollTop: 0 })
+      //     // }
+      //     })
+      //     return false
+      //  } 
     wx.showLoading({
       title: '加载中...',
     });
@@ -96,12 +115,16 @@ Page({
     })
    
     console.log(res)
+    
     if(res.data == [] || res.data == null || res.data == undefined || res.rowcount == 0){
       this.setData({nowPage:1,goodsList:[],rowcount :-1,searchvalue:''})
       wx.hideLoading()
       Notify({ type: 'success', message: '查询无数据',duration:3000, color: '#ad0000',      safeAreaInsetTop:false
       })
       return false
+    }
+    if(t.data.nowPage == 1){
+      t.setData({rowcount:res.rowcount,pageCount:res.pageCount})
     }
     let supplyList = []
     if (reachBottom) {
@@ -157,12 +180,12 @@ Page({
     this.setData({ searchvalue: e.detail, });
   },
   onClear(){
-    this.setData({nowPage :1,rowcount:-1,goodsList:[] ,searchvalue:''})
+    this.setData({nowPage :1,rowcount:-1,goodsList:[],pageCount:0 ,searchvalue:''})
     //this.getList()
     this.getSupplyList(true)
   },
    onSearch(){
-    this.setData({nowPage :1,rowcount:-1,goodsList:[]})
+    this.setData({nowPage :1,rowcount:-1,goodsList:[],pageCount:0})
     this.getSupplyList(true)
     // var str='{u:abc,w:123}'
     // str= encodeURIComponent(str)
@@ -235,11 +258,26 @@ Page({
      console.log('刷新数据')
      this.onClear()
   },
+  goodshow(e){
+    const id = e.target.dataset.id
+    wx.navigateTo({
+      url: '/pages/goodshow/goodshow?id=' + id,
+    })
+
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    wx.setNavigationBarTitle({
+      title: '家中物品管理-圈子',
+    })
+    // wx.setTabBarItem({
+    //  index:0, text: '',iconPath:'',selectedIconPath:''
+    // })
+    //  wx.setTabBarItem({
+    //    text: 'market'
+    //  })
   },
 
   /**
@@ -283,7 +321,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    console.log('onReachBottom1')
+    console.log('onReachBottom111111')
     this.getSupplyList(true);//调用方法
   },
   onReachBottom2() {
