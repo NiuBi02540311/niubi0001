@@ -1,6 +1,6 @@
 <!--pages/market/market.wxml-->
 <van-nav-bar  custom-style="padding-top:2rpx;" 
-  title="数量： {{goodsList.length}} / {{rowcount > 0 ? rowcount : 0}}"
+  title="页码:{{ nowPage - 1 }}/{{pageCount}} 合计:{{goodsList.length}}/{{rowcount > 0 ? rowcount : 0}}"
   left-text="返回主页"
   right-text="刷新数据"
   left-arrow  fixed safe-area-inset-top  placeholder
@@ -45,7 +45,7 @@
    data-index="{{index}}" data-id="{{item.id}}" data-title="{{item.title}}">审核</van-button>
   <van-button size="mini" type="warning" style="margin-right:50rpx;"  wx:if="{{false}}"  
     data-id="{{item.id}}" data-title="{{item.title}}" data-index="{{index}}">删除</van-button>
-    <van-button size="mini"  data-id="{{item.id}}" wx:if="{{true}}">浏览</van-button>
+    <van-button size="mini"  data-id="{{item.id}}" wx:if="{{true}}" bind:tap="goodshow">浏览</van-button>
   </view>
 </van-card>
 <van-notify id="van-notify" />

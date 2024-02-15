@@ -93,6 +93,7 @@ Page({
             const { fileList = [] } = t.data;
             fileList.push({ ...file, url: obj.message });
             t.setData({ fileList });
+            t.GetGoodImg()
         }else{
           wx.showToast({
             title: '上传失败',
@@ -285,14 +286,18 @@ Page({
       })
       console.log(res)
       if(!res.success){
-        Notify({ type: 'danger', message: 'GetGoodImg请求失败',duration:6000 })
-        return
+        if(res.message == 'DataTableIsNullOrWhiteSpace'){
+          t.setData({fileList:[]})
+        }else{
+          Notify({ type: 'danger', message: 'GetGoodImg请求失败',duration:6000 })
+        }
+        return 
       }
       const imgList = res.data
       let img = []
       imgList.forEach(function(item) {
         //console.log(item.ImgUrl);
-        img.push({url:localhost + item.ImgUrl})
+        img.push({url:localhost + item.ImgUrl,sid: item.sid})
       })
       ///const newList = [...t.data.fileList,...img]
       t.setData({fileList:img})
@@ -315,6 +320,43 @@ Page({
     this.setData({
       show: false,buytime: this.formatDate(event.detail),
     });
+  },
+  async fileDelete(e){
+    //event.detail.index: 删除图片的序号值
+    const t = this
+    console.log('fileDelete')
+    console.log(e)
+    
+    const index = e.detail.index
+    const openid = wx.getStorageSync('openid') 
+    const GoodID = t.data.id
+    const sid = t.data.fileList[index].sid
+    const localhost = getApp().globalData.localhost
+    const {data:res} = await wx.p.request({
+      url: localhost + `/wx/DeleteGoodImg?sid=${sid}&openid=${openid}&GoodID=${GoodID}`,
+      method:'POST'
+    })
+    console.log(res)
+    if(res.success == false){
+      Notify({ type: 'success', message: '照片删除失败:' + res.message,duration:5000, color: '#ad0000',      safeAreaInsetTop:false});
+      return false
+    }
+
+    // 重新到数据库查询一般
+    this.GetGoodImg()
+    return
+    let arr = Array.from(t.data.fileList)
+    arr.splice(index, 1);
+    // var result = arr.filter(function (obj) {
+    //   return obj.index != index
+    //   //return obj.name.includes(keyword); // 判断名称属性是否包含指定的关键字
+    // })
+    console.log(arr)
+   // delete arr[index]
+    this.setData({fileList:arr})
+  },
+  oversize(e){
+    console.log(oversize)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

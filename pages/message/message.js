@@ -19,7 +19,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    wx.setNavigationBarTitle({
+      title: '家中物品管理-消息',
+    })
+    // 显示 （发送给朋友）（分享到朋友圈）按钮，前提需要微信认证才能使用
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+     })
   },
 
   /**
@@ -66,7 +73,20 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage() {
-
-  }
+// 分享
+onShareAppMessage() {
+	return {
+	    title: '转发给你的朋友',
+	    path: '/pkgA/pages/dog/dog?id=123',
+		  // imageUrl: '',
+	}
+},
+// 分享到朋友圈
+onShareTimeline(){
+	return {
+		title: '分享到朋友圈',
+		query: '/pkgA/pages/dog/dog?id=123',
+		// imageUrl: '',
+	}
+}
 })

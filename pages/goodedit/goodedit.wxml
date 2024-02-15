@@ -42,7 +42,9 @@
  
 </van-cell-group>
 <View style="text-align: left;border: 2rpx solid #2c2c2b;margin:10rpx;">
-  <van-uploader file-list="{{ fileList }}"  accept="image"  use-before-read  max-count="{{maxcount}}" bind:before-read="beforeRead" bind:after-read="afterRead" multiple="{{false}}">
+  <van-uploader file-list="{{ fileList }}"  accept="image"  use-before-read  max-count="{{maxcount}}" bind:before-read="beforeRead" bind:after-read="afterRead"  bind:delete="fileDelete"
+  bind:oversize = "oversize"
+  multiple="{{false}}">
 </van-uploader>
 </View>
 <view style="text-align: center;padding:20rpx">

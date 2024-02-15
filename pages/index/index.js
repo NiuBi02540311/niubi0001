@@ -26,6 +26,16 @@ Page({
             }
           })
         }
+        if (!res.authSetting['scope.userLocationBackground'] && 1==0) {
+          wx.authorize({
+            scope: 'scope.userLocationBackground',
+            success () {
+              // 普通开发者：需要在 “小程序管理后台 -「开发」-「开发管理」-「接口设置」” 中完成权限申请
+              // 获取位置信息
+              wx.startLocationUpdateBackground()
+            }
+          })
+        }
         if (!res.authSetting['scope.werun']) {
           wx.authorize({
             scope: 'scope.werun',
@@ -134,4 +144,9 @@ Page({
       }
     })
   },
+  onReady(){
+    wx.setNavigationBarTitle({
+      title: '家中物品管理-我的',
+    })
+  }
 })
