@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    fileList:[]
   },
 
   /**
@@ -23,10 +23,10 @@ Page({
       title: '家中物品管理-消息',
     })
     // 显示 （发送给朋友）（分享到朋友圈）按钮，前提需要微信认证才能使用
-    wx.showShareMenu({
-      withShareTicket: true,
-      menus: ['shareAppMessage', 'shareTimeline']
-     })
+    // wx.showShareMenu({
+    //   withShareTicket: true,
+    //   menus: ['shareAppMessage', 'shareTimeline']
+    //  })
   },
 
   /**

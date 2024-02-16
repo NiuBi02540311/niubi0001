@@ -40,7 +40,9 @@
 <view class="{{message =='ok' || message =='' ?'ok':'fail'}}">
     <text>{{message}}</text>
 </view>
-<van-calendar show="{{ show }}" bind:close="onClose" bind:confirm="onConfirm" />
+<van-calendar show="{{ show }}" bind:close="onClose"   
+min-date="{{ minDate }}"  max-date="{{ maxDate }}"
+bind:confirm="onConfirm"/>
 <van-dialog id="van-dialog" />
 <van-toast id="van-toast" />
 <view>

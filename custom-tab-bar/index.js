@@ -60,7 +60,7 @@ Component({
       "icon":"friends-o"
     },
     {
-      "pagePath": "/pages/index/index",
+      "pagePath": "/pages/customer/customer",
       "text": "我的",
       "icon":"friends-o"
     }

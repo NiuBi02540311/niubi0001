@@ -1,0 +1,46 @@
+<!--pages/customer/customer.wxml-->
+<page-meta page-style="{{ popupshow ? 'overflow: hidden;' : '' }}" />
+<view class="firstvieww">
+  <van-image round width="10rem" height="10rem"  lazy-load bind:click ="changeHeadPhoto"
+   src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+<input style="color: royalblue;font-weight: bold;" type="text" value="{{NewName}}" 
+maxlength="20" bindinput="bindKeyInput" auto-focu />
+<van-tag type="primary" plain wx:if="{{false}}">修改昵称</van-tag>
+<van-button color="#7232dd" plain hairline size="small" bind:tap="ChangeName">修改昵称</van-button>
+<view style="font-size: 24rpx;">
+  <text>登录时间: {{customer.logintime}}</text>
+</view>
+</view>
+<view>
+  <van-grid direction="horizontal" column-num="3">
+  <van-grid-item icon="photo-o" text="收藏" dot />
+  <van-grid-item icon="photo-o" text="帖子" badge="{{customer.goodCount}}+"/>
+  <van-grid-item icon="photo-o" text="设置" />
+</van-grid>
+</view>
+<van-cell-group title="" inset>
+  <van-cell title="最新消息" is-link bind:click="showPopup" icon="location-o" 
+  url="/pages/goodshow/goodshow" />
+  <van-cell title="我的订阅" is-link bind:click="showPopup" />
+  <van-cell title="我的发布" is-link bind:click="showPopup" />
+  <van-cell title="更改头像" is-link bind:click="showPopup" />
+</van-cell-group>
+
+<van-dialog id="van-dialog" />
+<van-toast id="van-toast" />
+<van-notify id="van-notify" />
+
+<van-popup
+  show="{{ popupshow  }}" position="center"  round 
+  closeable
+  custom-style="height: 30%;width:60%;padding:80rpx;text-align:center"
+  bind:close="UserShutdown"  
+
+>
+<van-uploader file-list="{{ fileList }}"  use-before-read
+  bind:before-read="beforeRead"  bind:after-read="afterRead"/>
+<view>点击更换头像</view>
+</van-popup>
+
+
+

@@ -23,8 +23,8 @@
   <van-field
   model:value="{{ tag }}"  clearable  border="{{ true }}" label="标签"  placeholder="请输入物品标签"  />
   <van-field
-  model:value="{{ buytime }}"  clearable  border="{{ true }}" label="购入日期"  
-    placeholder="请输入日期" bind:focus="onChangebuytime" />
+  model:value="{{ buytime }}"  clearable label="购入日期"  
+   placeholder="请输入日期" bind:focus="onChangebuytime" />
   <!-- <van-field
     value="{{ sms }}"  center clearable label="短信验证码"
     placeholder="请输入短信验证码" border="{{ false }}" use-button-slot
@@ -64,6 +64,9 @@
   </van-grid-item>
 </van-grid>
 <fagui></fagui>
+<van-calendar show="{{ calendarShow }}"  bind:close="onClose"   
+min-date="{{ minDate }}"  max-date="{{ maxDate }}"
+bind:confirm="onConfirm"/>
 <van-toast id="van-toast" />
 <van-toast id="custom-selector" />
 <van-dialog id="van-dialog" />
