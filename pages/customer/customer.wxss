@@ -1,0 +1,30 @@
+/* pages/customer/customer.wxss */
+.firstvieww {
+  border: 2rpx solid #c3c1c5;
+  margin: 10rpx; padding: 10rpx;
+  text-align: center;
+}
+vieww:first-child{
+  border: 2rpx solid #9900ff;
+}
+view:nth-child(9999){
+  color: blue;
+}
+
+li:first-child{
+  color: red;
+}
+li:last-child{
+  color: green;
+}
+li:nth-child(3){
+  color: blue;
+}
+.dialog2 {
+
+  color: red;
+}
+
+.dd {
+  
+}

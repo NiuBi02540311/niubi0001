@@ -13,6 +13,7 @@ Page({
   data: {
     show: false, openid:wx.getStorageSync('openid'),message:'',imgsrc:'',pname:'',
     buytime:'',tag:'',pid:0, title:'',desc:'',num:1,price:0.0,shared:1,
+    minDate: new Date(2023, 1, 1).getTime(), maxDate: new Date(2024, 12, 31).getTime()
   },
 
   /**
@@ -84,6 +85,8 @@ Page({
       delete copyObj.message
       delete copyObj.imgsrc
       delete copyObj.pname
+      delete copyObj.minDate
+      delete copyObj.maxDate
       //console.log(that.data)
       console.log(copyObj)
       const obj = JSON.stringify(copyObj)

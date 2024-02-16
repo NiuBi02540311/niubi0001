@@ -13,7 +13,8 @@ Page({
     title:'',desc:'',num:1,price:0.0,approveID:0,
     admin:wx.getStorageSync('admin'),
     fileList:[],filesize: 1024 * 1024,fileUploadChecked:false,fileUploadMessage:'',
-    maxcount:5
+    maxcount:5,calendarShow:false,
+    minDate: new Date(2023, 1, 1).getTime(), maxDate: new Date(2024, 12, 31).getTime()
   },
   /**
    * 生命周期函数--监听页面加载
@@ -306,10 +307,10 @@ Page({
     this.onDisplay()
   },
   onDisplay() {
-    this.setData({ show: true });
+    this.setData({ show: true,calendarShow:true});
   },
   onClose() {
-    this.setData({ show: false });
+    this.setData({ show: false,calendarShow:false });
   },
   formatDate(date) {
     date = new Date(date);
@@ -318,7 +319,7 @@ Page({
   },
   onConfirm(event) {
     this.setData({
-      show: false,buytime: this.formatDate(event.detail),
+      show: false,calendarShow:false,buytime: this.formatDate(event.detail),
     });
   },
   async fileDelete(e){

@@ -14,7 +14,7 @@ Page({
    */
   data: {
     query: {},floorstatus:false, isShow: false,message:'',
-    goodsList: [],
+    goodsList: [],searchvalue:'',
     nowPage:  1,  pageSize : 5, rowcount  : -1,
     admin: false,searchvalue:''
   },
@@ -27,7 +27,65 @@ Page({
     this.setData({
       query : options, admin: wx.getStorageSync('admin')
     })
-    this.getList()
+    //this.getList()
+    this.getSupplyList()
+  },
+  async  getSupplyList() {
+    const t = this;//在回调甘薯里,this有时候不能直接用,防止出bug所初始化一个that
+    //const rowcount = t.data.rowcount < 0 ? 0 : t.data.rowcount
+    if (t.data.pageCount > t.data.nowPage - 1) {//判断当前也是否小于总页数
+      // ok
+    } else {
+      if(t.data.nowPage > 1)
+      {
+            Notify({ type: 'success', message: '数据已全部显示,点击返回顶部',duration:5000, color: '#ad0000',      safeAreaInsetTop:false,onClick:this.NotifyonClick
+            // onClick() {
+            //   //wx.pageScrollTo({ scrollTop: 0 })
+            // }
+            })
+          return 
+      }
+      
+    }
+     
+    wx.showLoading({ title: '数据加载中' })
+    const searchvalue =  encodeURIComponent(t.data.searchvalue)
+    const pid = t.data.query.id
+    const openid = await wx.getStorageSync('openid') 
+    const admin = await wx.getStorageSync('admin')
+    const isadmin =  admin ? 1: 0
+    const {data:res} = await wx.p.request({
+      url: localhost + `/wx/getGoodDatalist?pid=${pid}&openid=${openid}&nowPage=${t.data.nowPage}&pageSize=${t.data.pageSize}&isadmin=${isadmin}&searchvalue=${searchvalue}`,
+      method:'GET'
+    })
+    console.log(res)
+    
+    if(res.data == [] || res.data == null || res.data == undefined || res.rowcount == 0){
+      this.setData({nowPage:1,goodsList:[],rowcount :-1,searchvalue:'', pageCount:0})
+      wx.hideLoading()
+      Notify({ type: 'success', message: '查询无数据,下拉重新读取数据',duration:6000, color: '#ad0000',      safeAreaInsetTop:false
+      })
+      return false
+    }
+    if(t.data.nowPage == 1){
+      t.setData({rowcount:res.rowcount,pageCount:res.pageCount})
+    }
+    let supplyList = []
+    if (1==1) {
+      supplyList = [...t.data.goodsList, ...res.data]//将新数据加入老数据中
+    }
+    const NewIndex = t.data.nowPage +  1
+    t.setData({//将获取的值赋值给data中的数组和总页数
+      goodsList: supplyList,
+      rowcount: res.rowcount,nowPage:NewIndex
+    });
+    //t.data.nowPage++ //所有操作完成后页数加一
+    setTimeout(function () {
+      console.log('stopPullDownRefresh');
+      wx.hideLoading();
+      wx.stopPullDownRefresh();
+    }, 1000);
+    console.log(t.data.goodsList)
   },
   onTest(){
     // 定义一个包含多个对象的数组
@@ -48,10 +106,15 @@ Page({
     this.setData({ searchvalue: e.detail, });
   },
   onClear(){
-    this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] ,searchvalue:''})
-    this.getList()
+    this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] ,searchvalue:'',pageCount:0})
+    //this.getList()
+    this.getSupplyList()
   },
   onSearch(){
+    this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] ,pageCount:0})
+    this.getSupplyList()
+  },
+  onSearch2(){
     // var myArray = [5, 2, 1, 4, 3]
     // var sortedArray2 = myArray.filter(function(value) {
     // return value != 2;
@@ -62,7 +125,7 @@ Page({
     //console.log(arr)
     if(arr == [] || arr.length == 0){
       this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] ,searchvalue:''})
-      this.getList()
+      //this.getList()
       return
     }
     const searchvalue = this.data.searchvalue
@@ -70,7 +133,7 @@ Page({
     console.log(searchvalue.length)
     if(searchvalue.length == 0){
       this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] })
-      this.getList()
+      //this.getList()
       return
     }
     const admin = wx.getStorageSync('admin')
@@ -334,8 +397,9 @@ async  approveHandler(e){
     // this.data.nowPage = 1
     // this.data.rowcount = -1
     // this.data.goodsList = []
-    this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] })
-    this.getList()
+    //this.setData({isShow: false ,nowPage :1,rowcount:-1,goodsList:[] })
+    //this.getList()
+    this.onClear()
   },
 
   /**
@@ -343,7 +407,8 @@ async  approveHandler(e){
    */
   onReachBottom() {
     console.log('onReachBottom')
-    this.getList()
+    //this.getList()
+    this.getSupplyList()
   },
 
   /**
