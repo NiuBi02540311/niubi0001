@@ -24,7 +24,3 @@ li:nth-child(3){
 
   color: red;
 }
-
-.dd {
-  
-}
