@@ -19,7 +19,7 @@ maxlength="20" bindinput="bindKeyInput" auto-focu />
 </van-grid>
 </view>
 <van-cell-group title="" inset>
-  <van-cell title="最新消息" is-link bind:click="showPopup" icon="location-o" 
+  <van-cell title="最新消息" is-link bind:click="showPopup" icon="chat" 
   url="/pages/goodshow/goodshow" />
   <van-cell title="我的订阅" is-link bind:click="showPopup" />
   <van-cell title="我的发布" is-link bind:click="showPopup" />

@@ -1,0 +1,159 @@
+/* pages/cart/cart.wxss */
+.post {
+  margin: 0 42rpx 180rpx 42rpx;
+}
+.scroll{
+  height: 100%;
+}
+.top-check{
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 28rpx;
+  margin-top: 126rpx;
+}
+.top{
+  display: flex;
+  position: relative;
+}
+.algorithm{
+  /* padding: 20rpx 0; */
+  width:50rpx;
+  height: 50rpx; 
+}
+.bd {
+  width: 604rpx;
+  height: 232rpx;
+  border-radius: 28rpx;
+  background: rgba(248, 248, 248, 1);
+  display: flex;
+  margin-top: 28rpx;
+}
+
+.bd-image {
+  width: 228rpx;
+  height: 232rpx;
+  border-radius: 28rpx;
+}
+.img{
+  position: absolute;
+  right: 24rpx;
+  top: 52rpx;
+  width:52rpx;height: 48rpx;
+  /* width: 26rpx;
+  height: 24rpx; */
+}
+.bd-pro {
+  /* width: 436rpx; */
+  height: 232rpx;
+  margin: 0 30rpx;
+  display: flex;
+}
+
+.bd-prod {
+  margin-top: 38rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.bd-pro-name {
+  color: #333;
+  font-size: 34rpx;
+}
+
+.bd-pro-weight {
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 24rpx;
+}
+
+.bd-pro-price {
+  font-size: 24rpx;
+  color: #a70900;
+  margin-top: 15rpx;
+}
+
+.bd-product {
+  position: absolute;
+  bottom: 28rpx;
+  right: 28rpx;
+  display: flex;
+}
+
+.bd-product image {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.bd-product-text {
+  margin: 0 20rpx;
+  color: #000;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+.fixed {
+  background-color: #f8f8f8;
+  height: 132rpx;
+  border-radius: 28rpx 28rpx 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+.fixed-img{
+  position: absolute;
+left: 42rpx;
+top: 50rpx;
+width: 40rpx;
+height: 40rpx;
+}
+
+.fixed-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 90rpx;
+  margin-top: 30rpx;
+}
+
+.fixed-text1 {
+  font-size: 26rpx;
+  color: #333;
+}
+
+.fixed-text2 {
+  font-size: 40rpx;
+  color: #a70900;
+}
+.text{
+  font-size:26rpx;
+color: #a70900;
+}
+.fixed-cart {
+  width: 434rpx;
+  height: 98rpx;
+  display: flex;
+  background-color: #fd7564;
+ margin-right: 42rpx;
+  margin-top: 18rpx;
+  border-radius: 28rpx;
+
+}
+
+.fixed-cart text {
+  text-align: center;
+  line-height: 98rpx;
+    color: white;
+  font-size: 28rpx;
+  font-weight: 100;
+  font-family: SourceHanSansCN-Regular;
+  margin-left:150rpx;
+}
+
+.fixed-cart image {
+  margin: 32rpx 0;
+  position: absolute;
+  right: 80rpx;
+  width: 34rpx;
+  height: 34rpx;
+}
+.top:last-child {
+  margin-bottom: 160rpx;
+}
