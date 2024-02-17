@@ -85,7 +85,7 @@ Page({
       url: localhost +'/wx/NewUploadImg', // 仅为示例，非真实的接口地址
       filePath: file.url,
       name: 'file',
-      formData: { GoodID: t.data.id,openid: openid,uid:uid},
+      formData: { GoodID: t.data.id,openid: openid,uid:uid,type:'goodphoto'},
       success(res) {
         console.log(res)
         if(res.statusCode == 200 && res.errMsg == "uploadFile:ok"){
@@ -298,7 +298,8 @@ Page({
       let img = []
       imgList.forEach(function(item) {
         //console.log(item.ImgUrl);
-        img.push({url:localhost + item.ImgUrl,sid: item.sid})
+        //img.push({url:localhost + item.ImgUrl,sid: item.sid})
+        img.push({url:item.ImgUrl,sid: item.sid})
       })
       ///const newList = [...t.data.fileList,...img]
       t.setData({fileList:img})

@@ -2,6 +2,7 @@
 import Dialog from '@vant/weapp/dialog/dialog'
 import Toast from '@vant/weapp/toast/toast'
 import Notify from '@vant/weapp/notify/notify'
+const localhost = getApp().globalData.localhost
 Page({
 
   /**
@@ -19,7 +20,7 @@ Page({
     this.GetCustomerInfo()
   },
   changeHeadPhoto(){
-    this.setData({popupshow:true})
+    this.setData({popupshow:true,fileList:[]})
     
     // Dialog({
     //   selector: '#van-dialog-2',
@@ -38,26 +39,42 @@ Page({
   beforeRead(e) {
     console.log('beforeRead')
     console.log(e)
-    const { file, callback } = e.detail;
-    callback(file.type === 'image');
+    const { file, callback } = e.detail
+    //callback(file.type === 'image')
+    callback(true)
   },
   afterRead(e){
+    const t = this
     console.log('afterRead')
     const { file } = e.detail;
-    console.log(e)
-        // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-        wx.uploadFile({
-          url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-          filePath: file.url,
-          name: 'file',
-          formData: { user: 'test' },
-          success(res) {
-            // 上传完成需要更新 fileList
-            const { fileList = [] } = this.data;
-            fileList.push({ ...file, url: res.data });
-            this.setData({ fileList });
-          },
-        });
+    const openid = wx.getStorageSync('openid')
+    const uid = wx.getStorageSync('uid')
+    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+    wx.uploadFile({
+      url: localhost +'/wx/NewUploadImg', // 仅为示例，非真实的接口地址
+      filePath: file.url,
+      name: 'file',
+      formData: { GoodID: '0',openid: openid,uid:uid,type:'customerphoto'},
+      success(res) {
+        // 上传完成需要更新 fileList
+        console.log(res)
+        const obj = JSON.parse(res.data)
+        if(!obj.success || res.statusCode != 200){
+          wx.showToast({
+            title: '头像更换失败',
+          })
+            return
+        }
+       
+        const { fileList = [] } = t.data;
+        fileList.push({ ...file, url: obj.message });
+        t.setData({ fileList });
+        setTimeout(function(){
+          t.setData({['customer.headphoto']: obj.message,popupshow:false})
+        },3000)
+      
+      },
+    })
   },
   async GetCustomerInfo(){
     const openid = wx.getStorageSync('openid')
@@ -128,7 +145,6 @@ Page({
       NewName: e.detail.value
     })
   },
-  afterRead(){},
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

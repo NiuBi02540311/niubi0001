@@ -2,7 +2,7 @@
 <page-meta page-style="{{ popupshow ? 'overflow: hidden;' : '' }}" />
 <view class="firstvieww">
   <van-image round width="10rem" height="10rem"  lazy-load bind:click ="changeHeadPhoto"
-   src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+   src="{{customer.headphoto}}"/>
 <input style="color: royalblue;font-weight: bold;" type="text" value="{{NewName}}" 
 maxlength="20" bindinput="bindKeyInput" auto-focu />
 <van-tag type="primary" plain wx:if="{{false}}">修改昵称</van-tag>
@@ -35,12 +35,11 @@ maxlength="20" bindinput="bindKeyInput" auto-focu />
   closeable
   custom-style="height: 30%;width:60%;padding:80rpx;text-align:center"
   bind:close="UserShutdown"  
-
 >
-<van-uploader file-list="{{ fileList }}"  use-before-read
-  bind:before-read="beforeRead"  bind:after-read="afterRead"/>
+
+<van-uploader file-list="{{ fileList }}"  accept="image"  use-before-read  max-count="{{1}}" bind:before-read="beforeRead"  bind:after-read="afterRead"  
+  multiple="{{false}}">
+</van-uploader>
 <view>点击更换头像</view>
 </van-popup>
-
-
 
