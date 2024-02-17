@@ -1,0 +1,59 @@
+<!--pages/cart/cart.wxml-->
+<view class="post">
+<scroll-view scroll-y="true" class="scroll">
+<checkbox-group bindchange="checkboxChange">
+  <view wx:for="{{coupon}}" class="top" wx:key="index">
+    <label class="top-check">
+    <checkbox value="{{item.id}}" checked="{{item.selected}}" hidden='hidden'></checkbox>
+    <icon type="circle" size="23" wx:if="{{!item.selected}}"></icon>
+    <icon type="success" size="23" wx:if="{{item.selected}}"></icon>
+    </label>
+    <view class="bd" wx:key="{{item.id}}">
+      <image class="bd-image" src="/images/tabs/gd.png"></image>
+      <image wx:if="{{true}}" class="img" src="/images/tabs/c2.jpeg" bindtap="deleteList" data-index="{{index}}"></image>
+      <view class="bd-pro">
+      <view class="bd-prod">
+        <text class="bd-pro-name">{{item.title}}</text>
+        <text class="bd-pro-weight">{{item.num}}</text>
+        <text class="bd-pro-price">{{item.price}}</text>
+      </view>
+      <view class="bd-product">
+      <view class="algorithm" bindtap="reduceTap" data-index="{{index}}">
+      <image wx:if="{{false}}" src="../../static/images/reduce.png"></image>
+      <van-icon name="delete" />
+      </view>
+        <text class="bd-product-text">{{item.number}}</text>
+        <view class="algorithm" bindtap="addTap" data-index="{{index}}">
+        <image wx:if="{{false}}" src="../../static/images/plus.png"></image>
+        <van-icon name="add" />
+        </view>
+      </view>
+    </view>
+    </view>
+  </view>
+  </checkbox-group>
+  </scroll-view>
+</view>
+<!-- 底部 -->
+<view class="fixed" style="position:fixed;bottom:0;width:750rpx;">
+  <checkbox-group bindchange="selectAll">
+          <label class='fixed-img'>
+            <checkbox value="{{!selectAllStatus}}" checked="{{selectAllStatus}}" hidden='hidden' />
+            <icon type="circle" size="23" wx:if="{{!selectAllStatus}}"></icon>
+            <icon type="success" size="23" wx:if="{{selectAllStatus}}"></icon>
+          </label>
+        </checkbox-group>
+  <view class="fixed-text">
+    <text class="fixed-text1">总计</text>
+    <view>
+      <text class="text">￥</text>
+      <text class="fixed-text2">{{money}}</text>
+    </view>
+  </view>
+  <view class="fixed-cart" bindtap="orderTap">
+    <text>立即付款</text>
+    <image wx:if="{{false}}" src="../../static/images/Arrow.png"></image>
+    <van-icon color="black" size="50rpx" name="balance-o"></van-icon>
+  </view>
+</view>
+

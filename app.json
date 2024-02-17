@@ -9,6 +9,7 @@
     "pages/goodedit/goodedit",
     "pages/goodshow/goodshow",
     "pages/customer/customer",
+    "pages/cart/cart",
     "pages/index/index",
     "pages/test/test",
     "pages/logs/logs"
@@ -111,6 +112,7 @@
     "van-collapse": "@vant/weapp/collapse/index",
     "van-collapse-item": "@vant/weapp/collapse-item/index",
     "van-uploader": "@vant/weapp/uploader/index",
+    "van-icon": "@vant/weapp/icon/index",
     "fagui": "/components/fagui/fagui"
   }
 }
