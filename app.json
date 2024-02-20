@@ -10,6 +10,7 @@
     "pages/goodshow/goodshow",
     "pages/customer/customer",
     "pages/cart/cart",
+    "pages/cartt/cartt",
     "pages/index/index",
     "pages/test/test",
     "pages/logs/logs"
@@ -43,7 +44,7 @@
       "root": "pkgB",
       "name": "p2",
       "pages": [
-        "pages/apple/apple"
+        "pages/apple/apple","pages/banana/banana"
       ]
     }
   ],
@@ -113,6 +114,7 @@
     "van-collapse-item": "@vant/weapp/collapse-item/index",
     "van-uploader": "@vant/weapp/uploader/index",
     "van-icon": "@vant/weapp/icon/index",
+    "van-stepper": "@vant/weapp/stepper/index",
     "fagui": "/components/fagui/fagui"
   }
 }
