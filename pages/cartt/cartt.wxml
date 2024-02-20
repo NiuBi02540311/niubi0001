@@ -1,0 +1,79 @@
+<!--pages/cartt/cartt.wxml
+https://blog.csdn.net/m0_46613429/article/details/131008871?utm_source=miniapp_weixin
+-->
+ <!-- 商品菜单及列表 -->
+ <view class="cates">
+    <!-- 左侧菜单 -->
+    <scroll-view scroll-y class="left_menu">
+      <view class="menu_item title">商品列表</view>
+      <view class="menu_item {{index == currentIndex ? 'active' : ''}}" wx:for="{{menuList}}" wx:key="index" bindtap="handleMenuItemChange" data-index="{{index}}" data-id="{{item.id}}">{{item.name}}
+      </view>
+    </scroll-view>
+    <!-- 右侧列表 -->
+    <scroll-view scroll-y class="right_content" scroll-top="{{scrollTop}}">
+      <view class="product-item" wx:for="{{productList}}" wx:key="index" bindtap="goDetail" data-item="{{item}}">
+        <image class="image" src="{{item.images}}"></image>
+        <view class="info">
+          <view class="name">{{item.name}}</view>
+          <view class="remark">{{item.remark}}</view>
+          <view>
+            <view class="price">￥{{item.price}}</view>
+            <view wx:if="{{item.storeCount && item.storeCount != null}}" class="inventory">还剩{{item.storeCount}}件</view>
+          </view>
+        </view>
+        <view catchtap="preventBubbling">
+          <van-stepper show-minus="{{true}}" show-plus ="{{true}}" input-width="0"  bind:plus="doPlusNum" data-item="{{item}}" />
+          <view wx:if="{{item.num}}" class="num">{{item.num}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <!-- 底部固定购物车 -->
+<view class="cart">
+    <view class="cart_img_view" bindtap="handleCart">
+      <image animation="{{ani}}" src="/images/tabs/che1.png" class="cart_img"></image>
+      <view class="cart_num" wx:if="{{totalNum > 0}}">
+        {{totalNum}}
+      </view>
+    </view>
+    <view class="cart_price">￥{{totalPrice}}</view>
+    <view class="cart_text" bindtap="placeTheOrder">去支付</view>
+  </view>
+  <!-- 购物车展示 hideModal -->
+<modal hidden="{{hideModal}}">
+    <view class="cartBox">
+      <view class="top">
+        <view class="selectAll">
+          <checkbox-group bindchange="handleAllCheck">
+            <checkbox color="#fff" checked="{{allChecked}}"></checkbox>
+          </checkbox-group>
+          <view>已选购商品（{{totalNum}}件）</view>
+        </view>
+        <view class="clearCart" bindtap="handleClearCart">
+          <image src="/images/tabs/c5.jpeg"></image>
+          <view>清空</view>
+        </view>
+      </view>
+      <view class="bottom">
+        <view wx:for="{{cartList}}" wx:key="index" class="cart-item">
+          <view class="cart-item-left">
+            <checkbox-group bindchange="checkboxChange" data-id="{{item.id}}">
+              <checkbox color="#fff" checked="{{item.checked}}" value="{{item.id}}"></checkbox>
+            </checkbox-group>
+            <view class="cart-item-left-content">
+              <image src="/images/tabs/message2.png"></image>
+              <view class="info">
+                <view class="name">{{item.name}}</view>
+                <view class="remark">{{item.remark}}</view>
+                <view class="price">￥{{item.price}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="cart-item-right">
+            <van-stepper async-change min="0" show-minus="{{item.num == 0 ? false : true}}" input-width="{{item.num == 0 ? 0 : 32}}" value="{{item.num}}" disable-input bind:plus="doPlusNum" bind:minus="doMinusNum" data-item="{{item}}"></van-stepper>
+          </view>
+        </view>
+      </view>
+    </view>
+  </modal>
+
