@@ -11,6 +11,7 @@
     "pages/customer/customer",
     "pages/cart/cart",
     "pages/cartt/cartt",
+    "pages/carttt/carttt",
     "pages/index/index",
     "pages/test/test",
     "pages/logs/logs"

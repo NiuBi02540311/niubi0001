@@ -1,6 +1,6 @@
 <!--pages/home/home.wxml-->
 
-<scroll-view>
+<scroll-view style="height: 100%;">
   <banner></banner>
   <van-grid column-num="3" border="{{ true }}" >
   <van-grid-item use-slot wx:for="{{ datalist }}" wx:for-item="index" wx:key="index">
@@ -45,6 +45,12 @@
     link-type="reLaunch"
     url="/pages/cartt/cartt"
     text="cart 跳转"
+  />
+  <van-grid-item
+    icon="search"
+    link-type="reLaunch"
+    url="/pages/carttt/carttt"
+    text="carttt 跳转"
   />
 </van-grid>
 <!-- <view class="img-box">

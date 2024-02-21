@@ -1,0 +1,65 @@
+<!--pages/carttt/carttt.wxml
+httpss://blog.csdn.net/weixin_44013236/article/details/87904567?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-8-87904567-blog-131008871.235^v43^pc_blog_bottom_relevance_base8&spm=1001.2101.3001.4242.5&utm_relevant_index=11
+-->
+
+<view class="content">
+	<!-- 左边商品种类 -->
+	<scroll-view class="classify-container" scroll-y="true">
+		<!-- classifySeleted指的是默认选中的那个种类样式就是给标亮 -->
+		<!-- bindtap="tapClassify"的意思滑动种类的区域要把顶部的这个种类给拿出来，方便右边的商品的联动 -->
+        <view class="classify {{classifySeleted==classGoods.id?'active':''}}" wx:for="{{list}}" wx:for-item="classGoods" wx:key="id" data-id="{{classGoods.id}}" bindtap="tapClassify">
+			<view class="name">{{classGoods.className}}</view>
+		</view>
+	</scroll-view>
+	<!-- 右边商品详情 -->
+	<scroll-view class="goods-container" scroll-y="true" scroll-into-view="{{classifyViewed}}" bindscroll="onGoodsScroll">
+		<view wx:for="{{list}}" wx:for-item="classGoods" wx:key="id" id="{{classGoods.id}}" wx:for-index="classGoodsIndex">
+			<view class="title">{{classGoods.className}}</view>
+			<!-- 遍历商品种类下的商品 -->
+			<view class="goods" wx:for-items="{{classGoods.goods}}" wx:for-item="item" wx:key="{{item.id}}" wx:for-index="goodsIndex">
+				<image class="image" src="{{item.image}}"></image>
+				<view class="name ellipsis">{{item.name}}</view>
+				<view class="surplus">剩余数量：{{surplusNum[item.id]}}</view>
+				<!-- 优惠价格的判断 -->
+				<view wx:if="{{item.rebatePrice == '' || item.rebatePrice == null}}">
+				  <view class="price">￥{{item.standardPrice}}</view>
+				</view>
+				<view wx:else>
+				  <view class="price">￥{{item.rebatePrice}}</view>
+				  <view class='rebate-price' style='text-decoration:line-through;'>￥{{item.standardPrice}}</view>
+				</view>
+				<!-- 加减区域 -->
+				<view class='count-style'>
+					<!-- 加减采用的下标获取商品的信息 -->
+					<image wx:if="{{buyNum[item.id] > 0}}" 
+          src='/images/tabs/jian.jpeg' data-id="{{item.id}}" data-classGoodsIndex="{{classGoodsIndex}}" data-goodsIndex="{{goodsIndex}}" bindtap='subtract'></image>
+					<text>{{buyNum[item.id]}}</text>
+					<image src='/images/tabs/jia3.jpeg' data-id="{{item.id}}" data-classGoodsIndex="{{classGoodsIndex}}" data-goodsIndex="{{goodsIndex}}" bindtap='add'></image>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+</view>
+ 
+<view class="cart-detail" hidden="{{!showCartDetail || !buySum>0}}">
+	<view class="hidden-cart" bindtap="hideCartDetail"></view>
+	<scroll-view class="cart-list" scroll-y="true">
+		<view class="item" wx:for="{{cart}}" wx:for-index="id" wx:for-item="item" wx:key="id">
+			<view class="name ellipsis">{{item.name}}</view>
+			<view class="total">￥{{item.buyMoney}}</view>
+			<image class='cart-count-style' src='/images/tabs/jian.jpeg' data-id="{{item.id}}" data-price="{{item.price}}" data-detail="detail" data-name="{{item.name}}" bindtap='subtract'></image>
+			<view class="num">{{item.buyCount}}</view>
+			<image class='cart-count-style' src='/images/tabs/jia3.jpeg' data-id="{{item.id}}" data-price="{{item.price}}" data-detail="cart" data-name="{{item.name}}" bindtap='add'></image>
+		</view>
+	</scroll-view>
+</view>
+
+<view class="cart">
+    <view style="padding:20rpx"><van-icon size="60rpx" name="shopping-cart" /></view>
+		<view class="showCartDetail" bindtap="showCartDetail">
+			<view class="sumMoney">￥{{sumMoney}}</view>
+		</view>
+    <button class='submit' bindtap='submit'>掏钱</button>
+    <van-icon name="delete" size="60rpx" info="{{buySum}}"  wx:if="{{ buySum > 0 }}"
+    style="margin-right: 20rpx;" bind:tap="ClearCart"/>
+</view>

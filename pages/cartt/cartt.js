@@ -42,9 +42,10 @@ Page({
   },
  // 获取商品分组
  getGoodsGroup() {
-   let menu = []// [{id:1,name:'aa'},{id:2,name:'bb'},{id:3,name:'cc'},{id:4,name:'dd'}]
-   for(let i = 1 ; i < 20;i++){
-    menu.push( { id: i, name : 'name' + i} )
+   const m = ['水果','蔬菜','家电','服装']// [{id:1,name:'aa'},{id:2,name:'bb'},{id:3,name:'cc'},{id:4,name:'dd'}]
+   let menu = []
+   for(let i = 0 ; i < m.length;i++){
+    menu.push( { id: i + 1, name : m[i]} )
    }
     if( 1 === 1) {
 
@@ -69,19 +70,19 @@ Page({
 getProductList(groupId) {
   let arr = [
     {
-    images:'/images/tabs/gd.png', groupId:1,
-    name:'苹果1', remark:'很甜', price:33,storeCount:44, num:55
+    id:1,images:'/images/tabs/gd.png', groupId:1,
+    name:'苹果', remark:'很甜', price:10,storeCount:1, num:55
    },
    {
-    images:'/images/tabs/gd.png', groupId:1,
-    name:'苹果11', remark:'很甜', price:33,storeCount:44, num:66
+    id:2,images:'/images/tabs/gd.png', groupId:1,
+    name:'香蕉', remark:'很甜', price:20,storeCount:2, num:66
    },
    {
-    images:'/images/tabs/gd.png', groupId:2,
-    name:'苹果2', remark:'很甜', price:33,storeCount:44, num:77
+    id:3,images:'/images/tabs/gd.png', groupId:2,
+    name:'小麦', remark:'很甜', price:30,storeCount:3, num:77
    },{
-    images:'/images/tabs/gd.png', groupId:3,
-    name:'苹果3', remark:'很甜', price:33,storeCount:44, num:88
+    id:4,images:'/images/tabs/gd.png', groupId:3,
+    name:'电视机', remark:'很甜', price:40,storeCount:4, num:88
    }
   ]
   const result = arr.filter(function (obj) {
@@ -226,7 +227,11 @@ doMinusNum(e) {
 // 设置购物车状态
 setCart(cart) {
   cart = cart ? cart : wx.getStorageSync('cart') || []
-  if(cart.length === 0) {
+
+  const result = cart.filter(function (obj) {
+    return obj.checked === true // 判断名称属性是否包含指定的关键字
+  });
+  if(cart.length === 0 || result.length === 0) {
     this.setData({hideModal: true})
      
   }
@@ -266,11 +271,14 @@ cartWwing: function(){
 
 // 购物车勾选
 checkboxChange(e) {
+
   console.log(e);
   let { id } = e.currentTarget.dataset
   let cartList = JSON.parse(JSON.stringify(this.data.cartList))
   let index = cartList.findIndex(v => v.id === id)
   cartList[index].checked = !cartList[index].checked
+  console.log('checkboxChange')
+  console.log(cartList)
   this.setCart(cartList)
 },
 
@@ -299,6 +307,8 @@ handleClearCart() {
 
 // 支付跳转
 placeTheOrder() {
+  console.log('支付跳转')
+  return
   let data = {}
   orderGoodsInsert(data).then(res => {
     if(res.data.code === 1) {
