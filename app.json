@@ -9,11 +9,17 @@
     "pages/goodedit/goodedit",
     "pages/goodshow/goodshow",
     "pages/customer/customer",
+    "pages/goodlist2/goodlist2",
     "pages/cart/cart",
     "pages/cartt/cartt",
     "pages/carttt/carttt",
+    "pages/cart4/cart4",
+    "pages/cart5/cart5",
+    "pages/cart6/cart6",
+    "pages/cart7/cart7",
     "pages/index/index",
     "pages/test/test",
+    "pages/test2/test2",
     "pages/logs/logs"
   
   ],
@@ -34,18 +40,29 @@
   },
   "subPackages": [
     {
-      "root": "pkgA",
-      "name": "p1",
+      "root": "pkgA", "name": "p1",
       "pages": [
         "pages/cat/cat",
         "pages/dog/dog"
       ]
     },
     {
-      "root": "pkgB",
-      "name": "p2",
+      "root": "pkgB", "name": "p2",
       "pages": [
         "pages/apple/apple","pages/banana/banana"
+      ]
+    },
+    {
+      "root": "pkgTest",  "name": "p3",
+      "pages": [
+        "pages/test/test","pages/test2/test2"
+      ]
+    },
+    {
+      "root": "pkgCart",  "name": "p4",
+      "pages": [
+        "pages/cart/cart","pages/cartt/cartt","pages/carttt/carttt","pages/cart4/cart4", 
+         "pages/cart5/cart5","pages/cart6/cart6","pages/cart7/cart7"
       ]
     }
   ],

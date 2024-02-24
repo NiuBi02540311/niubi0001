@@ -1,0 +1,46 @@
+<!--pages/goodlist2/goodlist2.wxml
+https://blog.csdn.net/michael_ouyang/article/details/70755892
+-->
+<!--主盒子-->
+
+<van-nav-bar  custom-style="padding-top:2rpx;" 
+  title="标题"
+  left-text="返回"
+  right-text="购物车"  
+  left-arrow  
+  bind:click-left="onClickLeft"
+  bind:click-right="onClickRight"
+/>
+<view class="container">
+  <!--head-->
+ 
+  <view class="tit">
+    <view class="title_val">商品列表</view>
+    <view class="more">更多</view>
+  </view>
+  <!--list-->
+  <view class="goodslist">
+    <!--item-->
+    <block wx:for="{{goodslist}}">
+      <view class="goods">
+        <!--左侧图片盒子-->
+        <view>
+          <image src="{{item.imgUrl}}" class="good-img" />
+        </view>
+        <!--右侧说明部分-->
+        <view class="good-cont">
+          <!--上--文字说明-->
+          <view class="goods-navigator">
+            <text class="good-name">{{item.name}}</text>
+          </view>
+          <!--下--价格部分-->
+          <view class="good-price">
+            <text>￥{{item.price}}</text>
+            <image id="{{item.id}}" class="cart" src="/images/tabs/che1.png" bindtap="addcart" />
+
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

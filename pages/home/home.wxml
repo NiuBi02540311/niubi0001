@@ -15,30 +15,21 @@
     <text>{{datalist[index].name}}</text>
   </van-grid-item>
 </van-grid>
-<van-grid clickable column-num="4">
-  <van-grid-item
-    icon="home-o"
-    link-type="navigateTo"
-    url="/pkgA/pages/dog/dog"
-    text="Navigate跳转"
+<van-grid clickable column-num="3">
+  <van-grid-item icon="home-o" link-type="navigateTo" wx:if="{{false}}"
+    url="/pkgA/pages/dog/dog" text="Navigate跳转"
+  />
+  <van-grid-item icon="search"  link-type="reLaunch" url="/pkgA/pages/cat/cat"
+    text="godedit跳转" wx:if="{{false}}"
+  />
+  <van-grid-item icon="search" link-type="reLaunch" url="/pkgB/pages/banana/banana"
+    text="godadd跳转" wx:if="{{false}}"
   />
   <van-grid-item
     icon="search"
     link-type="reLaunch"
-    url="/pkgA/pages/cat/cat"
-    text="godedit跳转"
-  />
-  <van-grid-item
-    icon="search"
-    link-type="reLaunch"
-    url="/pkgB/pages/banana/banana"
-    text="godadd跳转"
-  />
-  <van-grid-item
-    icon="search"
-    link-type="reLaunch"
-    url="/pages/cart/cart"
-    text="cart 跳转"
+    url="/pkgTest/pages/test2/test2"
+    text="test2 跳转"
   />
   <van-grid-item
     icon="search"
