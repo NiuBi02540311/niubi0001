@@ -1,5 +1,5 @@
 <!--pages/carttt/carttt.wxml
-httpss://blog.csdn.net/weixin_44013236/article/details/87904567?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-8-87904567-blog-131008871.235^v43^pc_blog_bottom_relevance_base8&spm=1001.2101.3001.4242.5&utm_relevant_index=11
+https://blog.csdn.net/weixin_44013236/article/details/87904567?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-8-87904567-blog-131008871.235^v43^pc_blog_bottom_relevance_base8&spm=1001.2101.3001.4242.5&utm_relevant_index=11
 -->
 
 <view class="content">
@@ -63,3 +63,4 @@ httpss://blog.csdn.net/weixin_44013236/article/details/87904567?utm_medium=distr
     <van-icon name="delete" size="60rpx" info="{{buySum}}"  wx:if="{{ buySum > 0 }}"
     style="margin-right: 20rpx;" bind:tap="ClearCart"/>
 </view>
+<van-dialog id="van-dialog" />

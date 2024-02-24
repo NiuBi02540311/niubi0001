@@ -1,0 +1,55 @@
+<!--pages/cart5/cart5.wxml-->
+<!-- 购物车 https://www.cnblogs.com/shuihanxiao/p/11635132.html -->
+<!--pages/shopcart/shopcart.wxml-->
+<scroll-view class="scroll" scroll-y="true">
+  <view class="separate"></view>
+  <view wx:for="{{carts}}" wx:key="id">
+    <view class="cart_container">
+      <view class='select_icon'>
+        <icon  wx:if="{{item.ischecked}}" type="success" color="red" bindtap="judge_checked" data-index="{{index}}" />
+        <icon wx:else type="circle" bindtap="judge_checked" data-index="{{index}}"/>
+       </view>
+
+      <image class="item-image" src="{{item.image}}"></image>
+
+      <view class="column">
+        <view class="bjj">
+        <text class="title">{{item.title}}</text>
+        <view  class='ljt'>
+          <image class='ljt1' src='/images/tabs/shanchu.png' bindtap='deleteList' data-index="{{index}}"></image> 
+        </view>
+        </view>
+        
+  
+        <view class="row1">
+          <text class="sku-price">￥</text>
+          <text class="sku-price1">{{item.price}}</text>
+        </view> 
+          <view class='sku'>
+             <view class='mm' wx:if="{{ item.num > -1}}"  bindtap="minusCount" data-index="{{index}}">-</view>
+               <view class='mm'>{{item.num}}</view>
+             <view class='mm' bindtap="addCount" data-index="{{index}}">+</view>
+          </view>
+      </view>
+    </view>
+    <view class="separate"></view>
+  </view>
+
+
+
+</scroll-view>
+<view class="bottom_total">
+  <view class="bottom_line"></view>
+
+  <view class="row">
+    <view class='iconAll'>
+    <icon  wx:if="{{selectAllStatus}}" type="success" color="red" bindtap="selectAll" data-index="{{index}}" />
+        <icon wx:else type="circle" bindtap="selectAll" data-index="{{index}}"/>
+    </view>
+    <text class="small_text">全选</text>
+    <text>合计:￥ </text>
+    <text class="price">{{carts.length == 0 ? 0:totalPrice}}</text>
+    <button class="button-red" bindtap="toBuy" formType="submit">去结算</button>
+  </view>
+</view>
+

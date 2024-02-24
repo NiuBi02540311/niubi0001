@@ -1,0 +1,39 @@
+<!--pkgTest/pages/test2/test2.wxml-->
+<van-grid clickable column-num="4">
+  <van-grid-item icon="home-o" link-type="navigateTo" wx:if="{{false}}"
+    url="/pkgA/pages/dog/dog" text="Navigate跳转"
+  />
+  <van-grid-item icon="search"  link-type="reLaunch" url="/pkgA/pages/cat/cat"
+    text="godedit跳转" wx:if="{{false}}"
+  />
+  <van-grid-item icon="search" link-type="reLaunch" url="/pkgB/pages/banana/banana"
+    text="godadd跳转" wx:if="{{false}}"
+  />
+  <van-grid-item
+    icon="search"
+    link-type="reLaunch"
+    url="/pages/cart/cart"
+    text="cart 跳转"
+  />
+  <van-grid-item
+    icon="search"
+    link-type="reLaunch"
+    url="/pages/cartt/cartt"
+    text="cart 跳转"
+  />
+  <van-grid-item
+    icon="search"
+    link-type="reLaunch"
+    url="/pages/carttt/carttt"
+    text="carttt 跳转"
+  />
+  <van-grid-item
+    icon="search"
+    link-type="reLaunch"
+    url="/pages/cart4/cart4"
+    text="cart4 跳转"
+  />
+  <van-grid-item icon="search" url="/pages/cart5/cart5" text="cart5 跳转"/>
+  <van-grid-item icon="search" url="/pages/goodlist2/goodlist2" text="goodlist2"/>
+  <van-grid-item icon="search" url="/pkgCart/pages/cart7/cart7" text="cart7"/>
+</van-grid>

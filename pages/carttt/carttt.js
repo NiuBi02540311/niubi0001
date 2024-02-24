@@ -1,6 +1,18 @@
 // pages/carttt/carttt.js
+import Dialog from '@vant/weapp/dialog/dialog';
 var shopList = require('./shopList.js');
 var app = getApp();
+const beforeClose = (action) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      if (action === 'confirm') {
+        resolve(true);
+      } else {
+        // 拦截取消操作
+        resolve(false);
+      }
+    }, 1000);
+  });
 Page({
 
   /**
@@ -22,18 +34,31 @@ Page({
    */
   onLoad(options) {
     this.GetData()
+    
   },
   ClearCart(){
-    
-    this.setData({
-    showCartDetail: false,
-    classifyViewed: '',//默认顶部
-    buyNum: {},
-    cart: [],
-    surplusNum: {},
-    sumMoney: 0.00, //购买总价
-    buySum:0//购买总数
+    console.log('ClearCart')
+    const t = this
+    Dialog.confirm({
+      title: '标题',
+      message: '确定要清空购物车',
     })
+      .then(() => {
+        // on confirm
+        t.setData({
+          showCartDetail: false,
+          classifyViewed: '',//默认顶部
+          buyNum: {},
+          cart: [],
+          surplusNum: {},
+          sumMoney: 0.00, //购买总价
+          buySum:0//购买总数
+          })
+      })
+      .catch(() => {
+        // on cancel
+      });
+  
     //this.GetData()
   },
   GetData(){
